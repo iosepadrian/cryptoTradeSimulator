@@ -17,28 +17,13 @@ class CoinListAdapter(private val coinList: List<Coin>) :RecyclerView.Adapter<Co
         var nume: TextView
         var percentage: TextView
         var abrev: TextView
-        lateinit var img: ImageView
+        var img: ImageView
 
         init {
             nume = itemView.findViewById(R.id.coinName)
             percentage = itemView.findViewById(R.id.percentageCoin)
             abrev = itemView.findViewById(R.id.coinAbbreviation)
             img=itemView.findViewById(R.id.coinImageView)
-
-
-
-
-           /* itemView.setOnClickListener {
-                var position: Int = getAdapterPosition()
-                val context = itemView.context
-                val intent = Intent(context, DetailPertanyaan::class.java).apply {
-                    putExtra("NUMBER", position)
-                    putExtra("CODE", itemKode.text)
-                    putExtra("CATEGORY", itemKategori.text)
-                    putExtra("CONTENT", itemIsi.text)
-                }
-                context.startActivity(intent)
-            }*/
         }
     }
 

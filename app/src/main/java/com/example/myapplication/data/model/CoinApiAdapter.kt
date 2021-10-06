@@ -1,5 +1,6 @@
 package com.example.myapplication.data.model
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.utils.CoinApi
-import kotlinx.android.synthetic.main.api_coin_layout.view.*
 import java.util.*
 
 class CoinApiAdapter(
@@ -71,6 +71,7 @@ class CoinApiAdapter(
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun addData(list: List<CoinApi>) {
         coins = list
         coinsFiltered = coins

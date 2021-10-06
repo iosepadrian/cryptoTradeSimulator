@@ -1,16 +1,13 @@
 package com.example.myapplication.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
-import androidx.core.os.bundleOf
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -20,13 +17,9 @@ import com.example.myapplication.R
 import com.example.myapplication.api.ApiService
 import com.example.myapplication.data.model.CoinApiAdapter
 import com.example.myapplication.modelView.CoinViewModel
-import com.example.myapplication.modelView.UserViewModel
 import com.example.myapplication.repository.CoinRepository
 import com.example.myapplication.ui.ViewModelFactory
 import com.example.myapplication.utils.CoinApi
-import kotlinx.android.synthetic.main.fragment_page2.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
 
@@ -43,10 +36,10 @@ class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
 
-        viewOfLayout = inflater!!.inflate(R.layout.fragment_page2, container, false)
+        viewOfLayout = inflater.inflate(R.layout.fragment_page2, container, false)
 
        // val recyclerView =  viewOfLayout.findViewById<RecyclerView>(R.id.secondPageRecyclerView)
 
@@ -68,7 +61,7 @@ class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
         editsearch.setOnQueryTextListener(this)
 
         adapter=CoinApiAdapter()
-        viewModel.coins.observe(viewLifecycleOwner, Observer { coins ->
+        viewModel.coins.observe(viewLifecycleOwner, { coins ->
             recyclerView.also {
 
                 it.layoutManager = LinearLayoutManager(requireContext())
@@ -87,23 +80,10 @@ class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
                 navc?.navigate(R.id.action_page2Fragment_to_deatilFragment,bundle)
             }
         })
-
-      /*  for(user:CoinApi in viewModel.coins.value!!)
-        {
-            Log.v("AdiTag",user.id)
-        }*/
-
-
-      /*  swipeToRefresh.setOnRefreshListener {
-            Toast.makeText(activity,"Page refreshed", Toast.LENGTH_SHORT).show()
-            swipeToRefresh.isRefreshing=false
-        }
-*/
-
-
         return viewOfLayout
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun renderPhotosList(photosList: List<CoinApi>) {
         adapter.addData(photosList)
         adapter.notifyDataSetChanged()

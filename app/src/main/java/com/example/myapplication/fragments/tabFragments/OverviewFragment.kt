@@ -1,14 +1,13 @@
 package com.example.myapplication.fragments.tabFragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Button
+import androidx.fragment.app.Fragment
 import com.example.myapplication.R
-import kotlinx.android.synthetic.main.fragment_label.view.*
 
 
 class OverviewFragment : Fragment() {
@@ -17,10 +16,10 @@ class OverviewFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
 
-        viewOfLayout = inflater!!.inflate(R.layout.fragment_overview, container, false)
+        viewOfLayout = inflater.inflate(R.layout.fragment_overview, container, false)
         val button1= viewOfLayout.findViewById<Button>(R.id.buyButton)
         button1.setOnClickListener {
             button1.startAnimation(AnimationUtils.loadAnimation(this.activity,R.anim.bounce))

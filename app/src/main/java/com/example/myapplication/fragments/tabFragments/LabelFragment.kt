@@ -16,8 +16,8 @@ class LabelFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        viewOfLayout = inflater!!.inflate(R.layout.fragment_label, container, false)
+    ): View {
+        viewOfLayout = inflater.inflate(R.layout.fragment_label, container, false)
         val button1= viewOfLayout.findViewById<Button>(R.id.buyButton)
         button1.setOnClickListener {
             button1.startAnimation(AnimationUtils.loadAnimation(this.activity,R.anim.bounce))

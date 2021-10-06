@@ -17,10 +17,6 @@ class UserRepository @Inject constructor(application: Application) {
         userDao = db.userDao()
     }
 
-    fun getUser(): User {
-        return userDao.load()
-    }
-
     fun getUserAsync(): Flow<User> {
         return userDao.loadAsync()
     }

@@ -1,36 +1,21 @@
 package com.example.myapplication.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.myapplication.api.ApiService
-import com.example.myapplication.data.model.CoinApiAdapter
 import com.example.myapplication.data.model.CoinDetailsAdapter
 import com.example.myapplication.modelView.CoinDetailsViewModel
-import com.example.myapplication.modelView.CoinViewModel
 import com.example.myapplication.repository.CoinDetailsRepository
-import com.example.myapplication.repository.CoinRepository
 import com.example.myapplication.ui.CoinDetailsFactory
-import com.example.myapplication.ui.ViewModelFactory
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
-import android.R
-
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-
-
-
+import kotlinx.android.synthetic.main.fragment_deatil.view.*
 
 
 class DeatilFragment : Fragment() {
@@ -41,19 +26,13 @@ class DeatilFragment : Fragment() {
 
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        viewOfLayout = inflater!!.inflate(com.example.myapplication.R.layout.fragment_deatil, container, false)
-
-        /*val api= ApiService()
-        val repository= CoinDetailsRepository(api)
-        GlobalScope.launch(Dispatchers.Main) {
-            val coins = repository.getCoinDetails("01coin")
-            Log.v("Aditag", coins.toString())
-        }*/
+        viewOfLayout = inflater.inflate(com.example.myapplication.R.layout.fragment_deatil, container, false)
 
         val id= arguments?.getString("id")
         val api=ApiService()
@@ -62,17 +41,29 @@ class DeatilFragment : Fragment() {
         viewModel= ViewModelProviders.of(this,factory).get(CoinDetailsViewModel::class.java)
         if (id != null) {
             viewModel.getcoinDetails(id)
+            viewModel.getcoinTopDetails(id)
         }
         if (id != null) {
             Log.v("AdiTag",id)
         }
 
-        viewOfLayout.findViewById<TextView>(com.example.myapplication.R.id.headerId).text=id
 
-        val recyclerView =  viewOfLayout.findViewById<RecyclerView>(com.example.myapplication.R.id.detailRecyclerView)
-        viewModel.details.observe(viewLifecycleOwner, Observer { details ->
+        viewModel.topDetails.observe(viewLifecycleOwner, { topDetails->
+            viewOfLayout.headerId.text=topDetails.name
+            viewOfLayout.coinRank.text="#"+topDetails.coingecko_rank
+            Glide.with(viewOfLayout.coinimage.context).load(topDetails.image.small).into(viewOfLayout.coinimage)
+        })
+
+        /*GlobalScope.launch(Dispatchers.Main) {
+            val coins = repository.getCoinTopDetails("01coin")
+            Log.v("Aditag", coins.toString())
+        }*/
+
+
+        val recyclerView =  viewOfLayout.detailRecyclerView
+        viewModel.details.observe(viewLifecycleOwner, { details ->
             recyclerView.also {
-                var adapter= CoinDetailsAdapter(details)
+                val adapter= CoinDetailsAdapter(details)
                 it.layoutManager = LinearLayoutManager(requireContext())
                 it.setHasFixedSize(true)
                 it.adapter = adapter

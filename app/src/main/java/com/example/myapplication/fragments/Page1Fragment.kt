@@ -2,7 +2,6 @@ package com.example.myapplication.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.example.myapplication.R
+import com.example.myapplication.data.model.Coin
+import com.example.myapplication.data.model.CoinListAdapter
+import com.example.myapplication.data.model.PagerAdapter
 import com.example.myapplication.fragments.tabFragments.LabelFragment
 import com.example.myapplication.fragments.tabFragments.OverviewFragment
 import com.example.myapplication.fragments.tabFragments.TasksFragment
 import com.example.myapplication.fragments.tabFragments.TradesFragment
-import com.example.myapplication.data.model.Coin
-import com.example.myapplication.data.model.CoinListAdapter
-import com.example.myapplication.data.model.PagerAdapter
 import com.google.android.material.tabs.TabLayout
 
 class Page1Fragment : Fragment() {
@@ -29,21 +28,16 @@ class Page1Fragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        viewOfLayout = inflater!!.inflate(R.layout.fragment_page1, container, false)
+        viewOfLayout = inflater.inflate(R.layout.fragment_page1, container, false)
         val tab = viewOfLayout.findViewById<TabLayout>(R.id.fragment1tabLayout)
         val viewPager = viewOfLayout.findViewById<ViewPager>(R.id.viewpager)
         val pagerAdapters = PagerAdapter(childFragmentManager)
-        if (pagerAdapters != null) {
-            pagerAdapters.addFragment(OverviewFragment(),"Overview")
-            pagerAdapters.addFragment(TasksFragment(),"Tasks")
-            pagerAdapters.addFragment(TradesFragment(),"Trades")
-            pagerAdapters.addFragment(LabelFragment(),"Label")
-        }else
-        {
-            print(Log.v("AdiTag","eroare1"))
-        }
+        pagerAdapters.addFragment(OverviewFragment(),"Overview")
+        pagerAdapters.addFragment(TasksFragment(),"Tasks")
+        pagerAdapters.addFragment(TradesFragment(),"Trades")
+        pagerAdapters.addFragment(LabelFragment(),"Label")
         viewPager.adapter=pagerAdapters
         tab.setupWithViewPager(viewPager)
 

@@ -31,10 +31,6 @@ class UserViewModel @Inject constructor(
         userRepository.delete(user)
     }
 
-    fun loadUser() : User {
-         return userRepository.getUser()
-    }
-
     fun loadAllUsers():List<User>{
         return userRepository.getAllUsers()
     }

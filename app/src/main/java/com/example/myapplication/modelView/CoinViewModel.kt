@@ -1,20 +1,13 @@
 package com.example.myapplication.modelView
 
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.myapplication.api.Coroutines
-import com.example.myapplication.data.model.Coin
 import com.example.myapplication.repository.CoinRepository
 import com.example.myapplication.utils.CoinApi
-import com.example.myapplication.utils.User
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import javax.inject.Inject
+
 class CoinViewModel(private val coinRepository: CoinRepository) : ViewModel() {
 
     private lateinit var job:Job

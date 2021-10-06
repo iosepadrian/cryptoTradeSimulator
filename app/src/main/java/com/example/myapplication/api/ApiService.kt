@@ -2,6 +2,7 @@ package com.example.myapplication.api
 
 import com.example.myapplication.utils.CoinApi
 import com.example.myapplication.utils.CoinDetails
+import com.example.myapplication.utils.CoinTopDetails
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Call
 import retrofit2.Response
@@ -18,6 +19,9 @@ interface ApiService {
 
     @GET("coins/{id}/market_chart?vs_currency=usd&days=7")
     suspend fun getCoinDetails(@Path("id") id:String?):Response<CoinDetails>
+
+    @GET("coins/{id}")
+    suspend fun getCoinTopDetails(@Path("id")id:String?):Response<CoinTopDetails>
 
 
     companion object{

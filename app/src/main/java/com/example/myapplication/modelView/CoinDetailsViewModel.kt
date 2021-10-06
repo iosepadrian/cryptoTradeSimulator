@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.api.Coroutines
 import com.example.myapplication.repository.CoinDetailsRepository
-import com.example.myapplication.utils.CoinApi
 import com.example.myapplication.utils.CoinDetails
+import com.example.myapplication.utils.CoinTopDetails
 import kotlinx.coroutines.Job
 
 class CoinDetailsViewModel(private val coinDetailsRepository: CoinDetailsRepository) : ViewModel() {
@@ -21,7 +21,6 @@ class CoinDetailsViewModel(private val coinDetailsRepository: CoinDetailsReposit
             { coinDetailsRepository.getCoinDetails(id)
             },
             {_details.value=it }
-
         )
 
     }
@@ -29,6 +28,22 @@ class CoinDetailsViewModel(private val coinDetailsRepository: CoinDetailsReposit
     override fun onCleared() {
         super.onCleared()
         if(::job.isInitialized) job.cancel()
+    }
+
+
+
+
+    private val _topDetails=MutableLiveData<CoinTopDetails>()
+    val topDetails: LiveData<CoinTopDetails>
+        get()=_topDetails
+
+    fun getcoinTopDetails(id:String){
+        job= Coroutines.ioThenMain(
+            { coinDetailsRepository.getCoinTopDetails(id)
+            },
+            {_topDetails.value=it }
+        )
+
     }
 
 

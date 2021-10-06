@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/page1Fragment"
+        android:enabled="true"
+        android:title="Page1"
+        android:icon="@drawable/ic_navigation_bottom"/>
+    <item
+        android:id="@+id/page2Fragment"
+        android:enabled="true"
+        android:title="Page2"
+        android:icon="@drawable/ic_navigation_bottom"
+        />
+</menu>

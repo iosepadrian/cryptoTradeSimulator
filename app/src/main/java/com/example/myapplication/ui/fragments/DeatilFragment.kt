@@ -1,24 +1,23 @@
 package com.example.myapplication.ui.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.data.data.api.ApiService
-import com.example.myapplication.data.data.adapters.CoinDetailsAdapter
-import com.example.myapplication.modelView.CoinDetailsViewModel
-import com.example.myapplication.repository.CoinDetailsRepository
-import com.example.myapplication.ui.CoinDetailsFactory
-
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
+import com.example.myapplication.data.data.adapters.CoinDetailsAdapter
+import com.example.myapplication.data.data.api.ApiService
+import com.example.myapplication.modelView.CoinDetailsViewModel
+import com.example.myapplication.modelView.factories.CoinDetailsFactory
+import com.example.myapplication.repository.CoinDetailsRepository
 import kotlinx.android.synthetic.main.fragment_deatil.view.*
 
 
@@ -30,12 +29,13 @@ class DeatilFragment : Fragment() {
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
 
+    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        viewOfLayout = inflater!!.inflate(com.example.myapplication.R.layout.fragment_deatil, container, false)
+        viewOfLayout = inflater.inflate(com.example.myapplication.R.layout.fragment_deatil, container, false)
 
         /*val api= ApiService()
         val repository= CoinDetailsRepository(api)
@@ -57,17 +57,17 @@ class DeatilFragment : Fragment() {
             Log.v("AdiTag",id)
         }
 
-        viewModel.topDetails.observe(viewLifecycleOwner, Observer { topDetails->
-            viewOfLayout.coinRank.text="#"+topDetails.coingecko_rank.toString()
+        viewModel.topDetails.observe(viewLifecycleOwner, { topDetails->
+            viewOfLayout.coinRank.text="#"+ topDetails.coingecko_rank
             viewOfLayout.headerId.text=topDetails.name
             Glide.with(viewOfLayout.coinimage.context).load(topDetails.image.small).into(viewOfLayout.coinimage)
         })
         viewOfLayout.findViewById<TextView>(com.example.myapplication.R.id.headerId).text=id
 
         val recyclerView =  viewOfLayout.findViewById<RecyclerView>(com.example.myapplication.R.id.detailRecyclerView)
-        viewModel.details.observe(viewLifecycleOwner, Observer { details ->
+        viewModel.details.observe(viewLifecycleOwner, { details ->
             recyclerView.also {
-                var adapter= CoinDetailsAdapter(details)
+                val adapter= CoinDetailsAdapter(details)
                 it.layoutManager = LinearLayoutManager(requireContext())
                 it.setHasFixedSize(true)
                 it.adapter = adapter
@@ -75,22 +75,18 @@ class DeatilFragment : Fragment() {
         })
 
         swipeRefreshLayout=viewOfLayout.swiperefresh
-        swipeRefreshLayout.setOnRefreshListener(object: SwipeRefreshLayout.OnRefreshListener {
-            override fun onRefresh() {
-
-                viewModel.details.observe(viewLifecycleOwner, Observer { details ->
-                    recyclerView.also {
-                        var adapter= CoinDetailsAdapter(details)
-                        it.layoutManager = LinearLayoutManager(requireContext())
-                        it.setHasFixedSize(true)
-                        it.adapter = adapter
-                        adapter.notifyDataSetChanged()
-                    }
-                })
-            swipeRefreshLayout.isRefreshing=false
-            }
-
-        })
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.details.observe(viewLifecycleOwner, { details ->
+                recyclerView.also {
+                    val adapter = CoinDetailsAdapter(details)
+                    it.layoutManager = LinearLayoutManager(requireContext())
+                    it.setHasFixedSize(true)
+                    it.adapter = adapter
+                    adapter.notifyDataSetChanged()
+                }
+            })
+            swipeRefreshLayout.isRefreshing = false
+        }
 
         return viewOfLayout
     }

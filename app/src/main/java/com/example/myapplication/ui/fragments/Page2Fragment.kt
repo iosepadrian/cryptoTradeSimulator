@@ -18,14 +18,14 @@ import com.example.myapplication.data.data.api.ApiService
 import com.example.myapplication.data.data.adapters.CoinApiAdapter
 import com.example.myapplication.modelView.CoinViewModel
 import com.example.myapplication.repository.CoinRepository
-import com.example.myapplication.ui.ViewModelFactory
+import com.example.myapplication.modelView.factories.ViewModelFactory
 import com.example.myapplication.data.data.model.CoinApi
 
 class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
 
     private lateinit var viewOfLayout: View
     private lateinit var viewModel: CoinViewModel
-    private lateinit var factory:ViewModelFactory
+    private lateinit var factory: ViewModelFactory
     private lateinit var adapter: CoinApiAdapter
     var navc:NavController ?=null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

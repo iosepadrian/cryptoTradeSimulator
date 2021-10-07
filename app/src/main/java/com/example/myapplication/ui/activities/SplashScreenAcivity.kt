@@ -35,7 +35,7 @@ class SplashScreenAcivity : AppCompatActivity() {
 
     @SuppressLint("ObjectAnimatorBinding")
     private fun putProgress(){
-        progressBar = findViewById<ProgressBar>(R.id.splash_screen_progress_bar)
+        progressBar = findViewById(R.id.splash_screen_progress_bar)
         progressBar!!.max = 100
         val currentProgress = 100
         ObjectAnimator.ofInt(progressBar, "progress", currentProgress)

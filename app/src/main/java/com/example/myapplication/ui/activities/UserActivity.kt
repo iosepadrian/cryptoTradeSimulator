@@ -44,10 +44,10 @@ class UserActivity : AppCompatActivity() {
     private lateinit var backToast: Toast
     override fun onBackPressed() {
 
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStack();
+        if (fragmentManager.backStackEntryCount > 0) {
+            fragmentManager.popBackStack()
         } else {
-            super.onBackPressed();
+            super.onBackPressed()
         }
 
         backToast = Toast.makeText(this, "Press back again to leave the app.", Toast.LENGTH_LONG)

@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
-        android:name=".ApplicationApp"
+        android:name="com.example.myapplication.data.data.utils.ApplicationApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
-            android:name=".activities.UserActivity"
+            android:name="com.example.myapplication.ui.activities.UserActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.SplashScreenAcivity"
+            android:name="com.example.myapplication.ui.activities.SplashScreenAcivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.example.myapplication.ui.activities.MainActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 

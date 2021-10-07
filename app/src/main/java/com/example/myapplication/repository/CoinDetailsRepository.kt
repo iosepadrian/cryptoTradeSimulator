@@ -1,7 +1,7 @@
 package com.example.myapplication.repository
 
-import com.example.myapplication.api.ApiService
-import com.example.myapplication.api.SafeApiRequest
+import com.example.myapplication.data.data.api.ApiService
+import com.example.myapplication.data.data.api.SafeApiRequest
 
 class CoinDetailsRepository(private val apiHelper: ApiService) : SafeApiRequest() {
 

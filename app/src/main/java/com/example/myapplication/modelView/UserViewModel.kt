@@ -3,7 +3,7 @@ package com.example.myapplication.modelView
 import android.app.Application
 import androidx.lifecycle.*
 import com.example.myapplication.repository.UserRepository
-import com.example.myapplication.utils.User
+import com.example.myapplication.data.data.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

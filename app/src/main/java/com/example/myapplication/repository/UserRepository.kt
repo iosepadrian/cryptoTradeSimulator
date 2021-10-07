@@ -2,9 +2,9 @@ package com.example.myapplication.repository
 
 import android.app.Application
 import android.util.Log
-import com.example.myapplication.database.AppDatabase
-import com.example.myapplication.database.UserDao
-import com.example.myapplication.utils.User
+import com.example.myapplication.repository.database.AppDatabase
+import com.example.myapplication.repository.database.UserDao
+import com.example.myapplication.data.data.model.User
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

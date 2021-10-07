@@ -3,10 +3,10 @@ package com.example.myapplication.modelView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myapplication.api.Coroutines
+import com.example.myapplication.data.data.api.Coroutines
 import com.example.myapplication.repository.CoinDetailsRepository
-import com.example.myapplication.utils.CoinDetails
-import com.example.myapplication.utils.CoinTopDetails
+import com.example.myapplication.data.data.model.CoinDetails
+import com.example.myapplication.data.data.model.CoinTopDetails
 import kotlinx.coroutines.Job
 
 class CoinDetailsViewModel(private val coinDetailsRepository: CoinDetailsRepository) : ViewModel() {

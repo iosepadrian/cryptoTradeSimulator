@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/page1Fragment"
-        android:name="com.example.myapplication.fragments.Page1Fragment"
+        android:name="com.example.myapplication.ui.fragments.Page1Fragment"
         android:label="fragment_page1"
         tools:layout="@layout/fragment_page1" />
     <fragment
         android:id="@+id/page2Fragment"
-        android:name="com.example.myapplication.fragments.Page2Fragment"
+        android:name="com.example.myapplication.ui.fragments.Page2Fragment"
         android:label="fragment_page2"
         tools:layout="@layout/fragment_page2" >
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/deatilFragment"
-        android:name="com.example.myapplication.fragments.DeatilFragment"
+        android:name="com.example.myapplication.ui.fragments.DeatilFragment"
         android:label="fragment_deatil"
         tools:layout="@layout/fragment_deatil" />
 </navigation>

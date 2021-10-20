@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
@@ -29,6 +30,10 @@ import com.example.myapplication.modelView.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_page3.*
 import kotlinx.android.synthetic.main.fragment_page3.view.*
+import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
+import com.example.myapplication.ui.activities.UserActivity
+
 
 @AndroidEntryPoint
 class Page3Fragment : Fragment() {
@@ -117,6 +122,27 @@ class Page3Fragment : Fragment() {
             })
 
         }
+        val key: Int
+        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        key = prefs.getInt("autologinkey", 0)
+
+        if(key>0){
+            viewOfLayout.switchautologin.isChecked=true
+        }
+
+        viewOfLayout.switchautologin.setOnCheckedChangeListener { compoundButton, b ->
+            if (b){
+                // when switch button is checked
+                val prefs: SharedPreferences =
+                    PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+                prefs.edit().putInt("autologinkey", 1).commit()
+            }else{
+                val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+                prefs.edit().clear().commit();
+            }
+        }
+
 
         return viewOfLayout
     }

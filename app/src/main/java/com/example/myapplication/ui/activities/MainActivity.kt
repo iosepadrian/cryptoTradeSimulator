@@ -15,6 +15,7 @@ import androidx.biometric.BiometricPrompt
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.example.myapplication.R
 import com.example.myapplication.modelView.UserViewModel
 import com.example.myapplication.data.data.model.User
@@ -34,15 +35,24 @@ class MainActivity : AppCompatActivity() {
         val adiTag="AdiTag"
         val model=ViewModelProvider(this).get(UserViewModel::class.java)
 
-        val sharedpreferences = getSharedPreferences("autoLogin", MODE_PRIVATE)
-        val j: Int = sharedpreferences.getInt("key", 1)
 
-        
                 model.user.observe(this, {
                     findViewById<EditText>(R.id.usernameEditText).setText(it.username)
                 })
 
+        val key: Int
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
+        key = prefs.getInt("autologinkey", 0)
 
+        if(key>0){
+            val i = Intent(this@MainActivity, UserActivity::class.java)
+            startActivity(i)
+            finish()
+        }
+        else
+        {
+            Toast.makeText(this,"Not logged id",Toast.LENGTH_SHORT).show()
+        }
 
         /*if(model.loadAllUsers().isNotEmpty()) {
             model.user.observe(this, {

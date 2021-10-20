@@ -8,7 +8,6 @@
     android:background="@color/white"
     android:id="@+id/constraintLogin"
     >
-
 <ImageView
     android:id="@+id/loginImage"
     android:layout_width="match_parent"

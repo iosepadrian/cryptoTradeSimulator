@@ -25,6 +25,40 @@ class CoinDetailsViewModel(private val coinDetailsRepository: CoinDetailsReposit
 
     }
 
+
+    private val _one= MutableLiveData<CoinDetails>()
+    val one: LiveData<CoinDetails>
+        get()=_one
+
+    fun getcoinDetailsForOneDay(id:String){
+        job= Coroutines.ioThenMain(
+            { coinDetailsRepository.getCoinDetailsForOneDay(id)
+            },
+            {_one.value=it }
+        )
+
+    }
+
+    private val _two= MutableLiveData<CoinDetails>()
+    val two: LiveData<CoinDetails>
+        get()=_two
+
+    fun getcoinDetailsForTwoDays(id:String){
+        job= Coroutines.ioThenMain(
+            { coinDetailsRepository.getCoinDetailsForTwoDays(id)
+            },
+            {_two.value=it }
+        )
+
+    }
+
+
+
+
+
+
+
+
     override fun onCleared() {
         super.onCleared()
         if(::job.isInitialized) job.cancel()

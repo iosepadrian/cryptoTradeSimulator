@@ -35,17 +35,13 @@ class MainActivity : AppCompatActivity() {
         val model=ViewModelProvider(this).get(UserViewModel::class.java)
 
         val sharedpreferences = getSharedPreferences("autoLogin", MODE_PRIVATE)
-        val j: Int = sharedpreferences.getInt("key", 0)
+        val j: Int = sharedpreferences.getInt("key", 1)
 
-        if(model.loadAllUsers().isNotEmpty())
-        {
-            if(j > 0)
-            {
+        
                 model.user.observe(this, {
                     findViewById<EditText>(R.id.usernameEditText).setText(it.username)
                 })
-            }
-        }
+
 
 
         /*if(model.loadAllUsers().isNotEmpty()) {
@@ -89,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                     if(model.loadAllUsers().isNotEmpty()) {
                         model.deleteUser(model.user.value)
                     }
-                    val userToAdd = User("0", username, password)
+                    val userToAdd = User("0", username, password,"")
                     model.insertUser(userToAdd)
                     val i = Intent(this@MainActivity, UserActivity::class.java)
                     startActivity(i)

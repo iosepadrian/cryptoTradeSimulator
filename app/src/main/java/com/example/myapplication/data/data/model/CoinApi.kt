@@ -12,10 +12,24 @@ data class CoinApi (
      val symbol:String,
     @SerializedName("name")
     @Expose
-     val name:String
+     val name:String,
+    @SerializedName("image")
+    @Expose
+    val image : String,
+    @SerializedName("total_volume")
+    @Expose
+    val total_volume : String,
+    @SerializedName("current_price")
+    @Expose
+    val current_price : Float,
+    @SerializedName("market_cap_rank")
+    @Expose
+    val market_cap_rank : Int
         )
+
 {
+
     override fun toString(): String {
-        return "CoinApi(id='$id', symbol='$symbol', name='$name')"
+        return "CoinApi(id='$id', symbol='$symbol', name='$name', image='$image', current_price=$current_price, market_cap_rank=$market_cap_rank)"
     }
 }

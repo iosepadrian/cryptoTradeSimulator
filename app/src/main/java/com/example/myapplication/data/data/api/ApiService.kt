@@ -11,11 +11,17 @@ import retrofit2.http.Path
 
 interface ApiService {
 
-    @GET("coins/list")
+    @GET("coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false")
     suspend fun getCoins():Response<List<CoinApi>>
 
     @GET("coins/{id}/market_chart?vs_currency=usd&days=7")
     suspend fun getCoinDetails(@Path("id") id:String?):Response<CoinDetails>
+
+    @GET("coins/{id}/market_chart?vs_currency=usd&days=1")
+    suspend fun getCoinDetailsForOneDay(@Path("id") id:String?):Response<CoinDetails>
+
+    @GET("coins/{id}/market_chart?vs_currency=usd&days=2")
+    suspend fun getCoinDetailsForTwoDays(@Path("id") id:String?):Response<CoinDetails>
 
     @GET("coins/{id}")
     suspend fun getCoinTopDetails(@Path("id")id:String?):Response<CoinTopDetails>

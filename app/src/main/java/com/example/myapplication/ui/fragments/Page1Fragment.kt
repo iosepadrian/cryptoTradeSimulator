@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager
 import com.example.myapplication.R
 import com.example.myapplication.data.data.model.Coin
 import com.example.myapplication.data.data.adapters.CoinListAdapter
+import com.example.myapplication.data.data.adapters.CoinsListAdapter
 import com.example.myapplication.data.data.adapters.PagerAdapter
 import com.example.myapplication.ui.fragments.tabFragments.LabelFragment
 import com.example.myapplication.ui.fragments.tabFragments.OverviewFragment
@@ -23,7 +24,7 @@ class Page1Fragment : Fragment() {
 
     private var coinlist = ArrayList<Coin>()
     private lateinit var viewOfLayout: View
-
+    private val adapter = CoinsListAdapter()
     @SuppressLint("WrongConstant")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,14 +54,11 @@ class Page1Fragment : Fragment() {
 
 
         val recyclerView =  viewOfLayout.findViewById<RecyclerView>(R.id.coinRecyclerView)
+        adapter.submitList(coinlist)
 
+        recyclerView.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
+        recyclerView.adapter=adapter
 
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
-            // set the custom adapter to the RecyclerView
-            adapter =  CoinListAdapter(coinlist)
-
-        }
 
 
         return viewOfLayout

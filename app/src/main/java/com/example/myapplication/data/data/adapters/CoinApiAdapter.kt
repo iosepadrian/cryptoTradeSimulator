@@ -6,10 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.data.data.model.CoinApi
+import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.fragment_deatil.view.*
 import java.util.*
 
 class CoinApiAdapter(
@@ -32,13 +36,15 @@ class CoinApiAdapter(
 
 
     inner class DataViewHolder(itemView:View,listener: onItemClickListener):RecyclerView.ViewHolder(itemView){
-        var id: TextView
-        var symbol: TextView
+        var price: TextView
         var name: TextView
+        var img:ImageView
+        var totalvolume:Chip
         init {
-            id = itemView.findViewById(R.id.apicoinid)
-            symbol = itemView.findViewById(R.id.apicoinsymbol)
             name = itemView.findViewById(R.id.apicoinname)
+            price=itemView.findViewById(R.id.apicoinprice)
+            img=itemView.findViewById(R.id.coinimg)
+            totalvolume=itemView.findViewById(R.id.totalvolumechip)
             itemView.setOnClickListener{
                 listener.onItemClick(adapterPosition)
             }
@@ -59,10 +65,11 @@ class CoinApiAdapter(
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         val coin= coinsFiltered[position]
-
-        holder.id.text=coin.id
         holder.name.text=coin.name
-        holder.symbol.text=coin.symbol
+        holder.price.text="$ "+ String.format("%.10f",coin.current_price)
+        //holder.price.text=coin.current_price.toString()
+        holder.totalvolume.text=coin.total_volume
+        Glide.with(holder.img.context).load(coin.image).into(holder.img)
     }
 
     override fun getItemCount(): Int {

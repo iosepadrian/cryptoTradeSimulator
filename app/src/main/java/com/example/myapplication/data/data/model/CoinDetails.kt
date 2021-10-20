@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class CoinDetails (
     @SerializedName("prices")
     @Expose
-    val prices : List<List<String>>,
+    val prices : MutableList<List<String>>,
 
 ){
     override fun toString(): String {

@@ -16,4 +16,7 @@
     <color name="darkest_blue">#000026</color>
     <color name="light_blue">#80d8ff</color>
     <color name="green">#368805</color>
+    <color name="chip_text">#e8a48f</color>
+    <color name="chip_backgroud">#fcefec</color>
+    <color name="blue_price">#006d77</color>
 </resources>

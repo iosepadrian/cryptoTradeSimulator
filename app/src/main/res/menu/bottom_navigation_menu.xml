@@ -3,12 +3,18 @@
     <item
         android:id="@+id/page1Fragment"
         android:enabled="true"
-        android:title="Page1"
-        android:icon="@drawable/ic_navigation_bottom"/>
+        android:title="Home"
+        android:icon="@drawable/ic_home"/>
     <item
         android:id="@+id/page2Fragment"
         android:enabled="true"
-        android:title="Page2"
-        android:icon="@drawable/ic_navigation_bottom"
+        android:title="Coins"
+        android:icon="@drawable/ic_coins"
+        />
+    <item
+        android:id="@+id/page3Fragment"
+        android:enabled="true"
+        android:title="Profile"
+        android:icon="@drawable/ic_profile"
         />
 </menu>

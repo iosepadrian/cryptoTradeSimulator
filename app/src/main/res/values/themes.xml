@@ -9,6 +9,8 @@
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="android:editTextColor">@android:color/black</item>
+        <item name="android:textColorHint">@android:color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
         <!-- Customize your theme here. -->
@@ -16,12 +18,15 @@
     <style name="Button.Blue" parent="ThemeOverlay.AppCompat">
         <item name="colorAccent">@color/blue</item>
     </style>
+    <style name="Button.White" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/white</item>
+    </style>
     <style name="Button.DarkBlue" parent="ThemeOverlay.AppCompat">
         <item name="colorAccent">@color/darkest_blue</item>
     </style>
     <style name="Navigation.Blue" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/shine_blue</item>
-        <item name="colorOnPrimary">@color/shine_blue</item>
+        <item name="colorPrimary">@color/blue_price</item>
+        <item name="colorOnPrimary">@color/green</item>
     </style>
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">18sp</item>
@@ -33,5 +38,21 @@
     </style>
     <style name="MyCustomTabText" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">12sp</item>
+    </style>
+    <style name="ChipTextAppearance" parent="TextAppearance.MaterialComponents.Chip">
+        <item name="android:textColor">@color/chip_text</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+    <style name="AppSearchView" parent="Widget.AppCompat.SearchView" >
+        <!-- Text Size -->
+        <item name="android:textSize">12dp</item>
+        <!-- Query Text Color -->
+        <item name="android:textColorPrimary">@color/black</item>
+        <!-- Hint Color -->
+        <item name="android:textColorHint">@color/grey</item>
+        <!-- Icon Color -->
+        <item name="android:tint">@color/black</item>
     </style>
 </resources>

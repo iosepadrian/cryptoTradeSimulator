@@ -9,8 +9,8 @@ import javax.annotation.Nonnull
 data class User  (
     @PrimaryKey @Nonnull val id: String,
     @ColumnInfo(name = "password") val password:String?,
-    @ColumnInfo(name = "username") val username:String?
-
+    @ColumnInfo(name = "username") val username:String?,
+    @ColumnInfo(name = "uri") val uri:String?
     ) {
 
     override fun toString(): String {

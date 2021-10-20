@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragments.Page3Fragment">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/yourProfileTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="Your Profile"
+            android:textColor="@color/chip_text"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/emailconfirmationlayout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/layout_bg"
+            app:layout_constraintTop_toBottomOf="@id/yourProfileTextView">
+
+            <TextView
+                android:id="@+id/emailconfiramtiontextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:text="Email confirmation"
+                android:textColor="@color/white"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Please confirm your email address in order to unlock the ability to sign in"
+                android:textColor="@color/tab_grey"
+                app:layout_constraintLeft_toLeftOf="@id/emailconfiramtiontextview"
+                app:layout_constraintTop_toBottomOf="@id/emailconfiramtiontextview"></TextView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/accinfotextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Account Information"
+            android:textColor="@color/blue_price"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@id/yourProfileTextView"
+            app:layout_constraintTop_toBottomOf="@id/emailconfirmationlayout"></TextView>
+
+        <ImageView
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:elevation="2dp"
+            android:layerType="software"
+            android:src="@drawable/dotted"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/accinfotextview" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userPhoto"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="@id/yourProfileTextView"
+            app:layout_constraintTop_toBottomOf="@id/divider1"></de.hdodenhof.circleimageview.CircleImageView>
+
+        <ImageView
+            android:id="@+id/uploadimage"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/ic_upload"
+            app:layout_constraintBottom_toTopOf="@id/deleteimage"
+            app:layout_constraintLeft_toRightOf="@id/userPhoto"
+            app:layout_constraintTop_toTopOf="@id/userPhoto"></ImageView>
+
+        <TextView
+            android:id="@+id/uploadtextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload photo"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/uploadimage"
+            app:layout_constraintLeft_toRightOf="@id/uploadimage"
+            app:layout_constraintTop_toTopOf="@id/uploadimage"
+            android:textColor="@color/black"
+            android:textSize="17dp"/>
+
+        <ImageView
+            android:id="@+id/deleteimage"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/ic_delete"
+            app:layout_constraintBottom_toBottomOf="@id/userPhoto"
+            app:layout_constraintLeft_toRightOf="@id/userPhoto"
+            app:layout_constraintTop_toBottomOf="@id/uploadimage"></ImageView>
+
+        <TextView
+            android:id="@+id/deletetextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete photo"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/deleteimage"
+            app:layout_constraintLeft_toRightOf="@id/deleteimage"
+            app:layout_constraintTop_toTopOf="@id/deleteimage"
+            android:textColor="@color/black"
+            android:textSize="17dp" />
+
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/userPhoto"
+            app:layout_constraintLeft_toLeftOf="@id/yourProfileTextView"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:text="Username"
+            android:textSize="17dp"
+            android:textColor="@color/black"
+            ></TextView>
+        <EditText
+            android:id="@+id/usernameedittext"
+            android:layout_width="384dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/nameTextView"
+            app:layout_constraintLeft_toLeftOf="@id/nameTextView"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="15dp"
+            android:textColorHint="@color/grey"
+            android:hint="Username"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            ></EditText>
+        <TextView
+            android:id="@+id/emailtextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/usernameedittext"
+            app:layout_constraintLeft_toLeftOf="@id/usernameedittext"
+            android:layout_marginTop="10dp"
+            android:text="New Password"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            ></TextView>
+
+        <EditText
+            android:id="@+id/emailedittext"
+            android:layout_width="384dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:hint="New Password"
+            android:textColorHint="@color/grey"
+            app:layout_constraintHorizontal_bias="0.333"
+            app:layout_constraintLeft_toLeftOf="@id/nameTextView"
+            app:layout_constraintRight_toRightOf="parent"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            app:layout_constraintTop_toBottomOf="@id/emailtextview"></EditText>
+
+        <Switch
+            android:id="@+id/switchautologin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/emailedittext"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="@id/emailedittext"
+            android:switchMinWidth="56dp"
+            ></Switch>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/switchautologin"
+            app:layout_constraintBottom_toBottomOf="@id/switchautologin"
+            app:layout_constraintLeft_toRightOf="@id/switchautologin"
+            android:layout_marginLeft="20dp"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:textColor="@color/grey"
+            android:text="Auto login"
+            ></TextView>
+        <Button
+            android:id="@+id/changepassbutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/switchautologin"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:text="Change Password"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            app:backgroundTint="@null"
+            android:background="@drawable/button_white"
+            android:stateListAnimator="@null"
+            android:elevation="5dp"
+            ></Button>
+        <TextView
+            android:id="@+id/favcoinsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/changepassbutton"
+            app:layout_constraintLeft_toLeftOf="@id/changepassbutton"
+            android:layout_marginTop="10dp"
+            android:textSize="25dp"
+            android:textColor="@color/blue_price"
+            android:text="Favorite coins"
+            android:textStyle="bold"
+            ></TextView>
+        <ImageView
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="5dp"
+            android:elevation="2dp"
+            android:layerType="software"
+            android:src="@drawable/dotted"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/favcoinsTextView" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/divider2"
+            android:layout_marginTop="5dp"
+            >
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/favoriterecyclerView"
+                android:nestedScrollingEnabled="false"
+                android:paddingBottom="70dp"
+                ></androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

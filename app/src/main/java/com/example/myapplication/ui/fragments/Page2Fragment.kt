@@ -1,13 +1,11 @@
 package com.example.myapplication.ui.fragments
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -22,10 +20,8 @@ import com.example.myapplication.data.data.model.CoinApi
 import com.example.myapplication.modelView.CoinViewModel
 import com.example.myapplication.modelView.factories.ViewModelFactory
 import com.example.myapplication.repository.CoinRepository
-import com.example.myapplication.repository.FavCoinRepository
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.buttom_sheet_dialog.*
-import kotlinx.android.synthetic.main.fragment_deatil.view.*
 import kotlinx.android.synthetic.main.fragment_page2.view.*
 
 class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
@@ -45,12 +41,8 @@ class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
 
         viewOfLayout = inflater.inflate(R.layout.fragment_page2, container, false)
-
-       // val recyclerView =  viewOfLayout.findViewById<RecyclerView>(R.id.secondPageRecyclerView)
-
         /*val repository=CoinRepository(ApiService())
         GlobalScope.launch(Dispatchers.Main) {
             val coins=repository.getCoins()
@@ -64,28 +56,18 @@ class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
         factory = ViewModelFactory(repository)
         viewModel= ViewModelProviders.of(this,factory).get(CoinViewModel::class.java)
         viewModel.getCoins()
-        val recyclerView =  viewOfLayout.secondPageRecyclerView
 
+        val recyclerView =  viewOfLayout.secondPageRecyclerView
         val editsearch = viewOfLayout.findViewById<SearchView>(R.id.search)
         editsearch.setOnQueryTextListener(this)
-        /*val icon: ImageView =
-            editsearch.findViewById(R.id.search_button)
-        icon.setColorFilter(Color.BLACK)*/
-
-        adapter= CoinApiAdapter()
-        viewModel.coins.observe(viewLifecycleOwner, { coins ->
-            recyclerView.also {
-
-                it.layoutManager = LinearLayoutManager(requireContext())
-                it.setHasFixedSize(true)
-                it.adapter = adapter
-                renderPhotosList(coins)
-
-            }
-            viewOfLayout.noofcoins.text=coins.size.toString()+" coins"
-        })
+        setCoinsList(recyclerView)
+        handleSort(recyclerView)
 
 
+        return viewOfLayout
+    }
+
+    private fun handleSort(recyclerView: RecyclerView) {
         val ascdscimage=viewOfLayout.ascdscimg
         if(checkString=="asc"){
             ascdscimage.setImageResource(R.drawable.asc)
@@ -129,20 +111,29 @@ class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
                 }
             }
         }
-
         val sort=viewOfLayout.sorttextview
         sort.setOnClickListener{
             showBottomSheetDialog(recyclerView)
         }
+    }
 
+    @SuppressLint("SetTextI18n")
+    private fun setCoinsList(recyclerView: RecyclerView?) {
+        adapter= CoinApiAdapter()
+        viewModel.coins.observe(viewLifecycleOwner, { coins ->
+            recyclerView.also {
 
+                if (it != null) {
+                    it.layoutManager = LinearLayoutManager(requireContext())
+                    it.setHasFixedSize(true)
+                    it.adapter = adapter
+                }
 
+                renderPhotosList(coins)
 
-
-
-
-
-
+            }
+            viewOfLayout.noofcoins.text=coins.size.toString()+" coins"
+        })
         adapter.setOnItemClickListener(object : CoinApiAdapter.onItemClickListener{
             override fun onItemClick(position: Int) {
                 Log.v("AdiTag","Item clicked")
@@ -151,13 +142,9 @@ class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
                 navc?.navigate(R.id.action_page2Fragment_to_deatilFragment,bundle)
             }
         })
-
-
-
-
-        return viewOfLayout
     }
 
+    @SuppressLint("SetTextI18n")
     private fun sortbyDescendingName(recyclerView: RecyclerView) {
 
             adapter= CoinApiAdapter()
@@ -182,6 +169,7 @@ class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
             })
 
     }
+    @SuppressLint("SetTextI18n")
     private fun sortbyDescendingPrice(recyclerView: RecyclerView) {
 
             adapter= CoinApiAdapter()
@@ -206,6 +194,7 @@ class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
             })
 
     }
+    @SuppressLint("SetTextI18n")
     private fun sortbyDescendingRank(recyclerView: RecyclerView) {
 
         adapter= CoinApiAdapter()
@@ -231,6 +220,7 @@ class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showBottomSheetDialog(recyclerView: RecyclerView) {
 
         val buttomsheet=BottomSheetDialog(requireContext())
@@ -266,11 +256,12 @@ class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun sortCoinsByName(recyclerView:RecyclerView) {
 
         adapter= CoinApiAdapter()
         viewModel.coins.observe(viewLifecycleOwner, { coins ->
-            recyclerView.also {
+            recyclerView.also { it ->
                 it.layoutManager = LinearLayoutManager(requireContext())
                 it.setHasFixedSize(true)
                 it.adapter = adapter
@@ -288,6 +279,7 @@ class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
             }
         })
     }
+    @SuppressLint("SetTextI18n")
     private fun sortCoinsByPrice(recyclerView:RecyclerView) {
 
         adapter= CoinApiAdapter()
@@ -310,6 +302,7 @@ class Page2Fragment : Fragment(),SearchView.OnQueryTextListener {
             }
         })
     }
+    @SuppressLint("SetTextI18n")
     private fun sortCoinsByRank(recyclerView:RecyclerView) {
 
         adapter= CoinApiAdapter()

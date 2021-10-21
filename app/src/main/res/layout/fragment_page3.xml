@@ -230,12 +230,22 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/changepassbutton"
             app:layout_constraintLeft_toLeftOf="@id/changepassbutton"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:textSize="25dp"
             android:textColor="@color/blue_price"
             android:text="Favorite coins"
             android:textStyle="bold"
             ></TextView>
+        <ImageView
+            android:id="@+id/ascfavdscimg"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toTopOf="@id/favcoinsTextView"
+            app:layout_constraintBottom_toBottomOf="@id/favcoinsTextView"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/asc"
+            ></ImageView>
         <ImageView
             android:id="@+id/divider2"
             android:layout_width="match_parent"

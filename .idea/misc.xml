@@ -23,6 +23,7 @@
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/api_coin_layout.xml" value="0.2515625" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/bottom_nav_color.xml" value="0.3473731884057971" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/buttom_sheet_dialog.xml" value="0.3523550724637681" />
+        <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/categoty_card_view.xml" value="0.2515625" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/coin_card_view.xml" value="0.2640625" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/detail_card_view.xml" value="0.25625" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/favorite_card_view.xml" value="0.2515625" />
@@ -35,6 +36,7 @@
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_page1.xml" value="0.25" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_page2.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_page3.xml" value="0.2171875" />
+        <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_page4.xml" value="0.2515625" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_scrolling.xml" value="0.2453125" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_second_page.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_seven_days_chart.xml" value="0.2859375" />
@@ -42,6 +44,7 @@
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_trades.xml" value="0.29322916666666665" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/layout_bg.xml" value="0.2171875" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/standalone_chip.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/subcategory_card_view.xml" value="0.2515625" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/layout/white_button.xml" value="0.23489583333333333" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/menu/menu_item.xml" value="0.36666666666666664" />

@@ -9,6 +9,13 @@
         android:name="com.example.myapplication.ui.fragments.Page3Fragment"
         android:label="fragment_page3"
         tools:layout="@layout/fragment_page3" />
+    <fragment
+        android:id="@+id/page4Fragment"
+        android:name="com.example.myapplication.ui.fragments.Page4Fragment"
+        android:label="fragment_page4"
+        tools:layout="@layout/fragment_page4" />
+
+
 
     <fragment
         android:id="@+id/page1Fragment"

@@ -35,11 +35,11 @@ class MainActivity : AppCompatActivity() {
         val adiTag="AdiTag"
         val model=ViewModelProvider(this).get(UserViewModel::class.java)
 
-
-                model.user.observe(this, {
-                    findViewById<EditText>(R.id.usernameEditText).setText(it.username)
-                })
-
+        if(model.loadAllUsers().isNotEmpty()) {
+            model.user.observe(this, {
+                findViewById<EditText>(R.id.usernameEditText).setText(it.username)
+            })
+        }
         val key: Int
         val prefs = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
         key = prefs.getInt("autologinkey", 0)

@@ -49,7 +49,6 @@ class CategoryAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.name.setText(categoryList.get(position).name)
-        Log.v("AdiTag", categoryList.get(position).name)
         val manager = LinearLayoutManager(context)
         val adapter = SubCategoryAdapter(
             object : SubCategoryAdapter.SubSelectionInterface {
@@ -62,7 +61,6 @@ class CategoryAdapter(
             )
         holder.mSubRecyclerView.layoutManager = manager
         holder.mSubRecyclerView.adapter = adapter
-        Log.v("AdiTag", categoryList[position].subcategoryList.toString())
         if (position == clickedPosition) {
             holder.mSubRecyclerView.visibility = View.VISIBLE
             holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)

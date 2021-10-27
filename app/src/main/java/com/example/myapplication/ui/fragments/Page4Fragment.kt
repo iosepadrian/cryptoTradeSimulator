@@ -72,7 +72,6 @@ class Page4Fragment : Fragment() {
         categoryList[4]?.subcategoryList.add(SubCategory("2", "sub two"))
         categoryList[4]?.subcategoryList.add(SubCategory("3", "sub three"))
 
-        Log.v("AdiTag","aici "+ categoryList[3].subcategoryList.toString())
     }
 
 

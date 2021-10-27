@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,10 +20,13 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import com.example.myapplication.data.data.adapters.CoinApiAdapter
 import com.example.myapplication.data.data.adapters.FavCoinAdapter
 import com.example.myapplication.data.data.model.Favcoin
 import com.example.myapplication.data.data.model.User
@@ -39,6 +43,11 @@ class Page3Fragment : Fragment() {
     private lateinit var viewOfLayout: View
     private lateinit var adapter:FavCoinAdapter
     private lateinit var viewModel: FavCoinModelView
+    var navc: NavController?=null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navc= Navigation.findNavController(view)
+    }
     private val activityViewModel: UserViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -122,6 +131,14 @@ class Page3Fragment : Fragment() {
                 }
             }
         })
+        adapter.setOnItemClickListener(object : FavCoinAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+                Log.v("AdiTag","Item clicked")
+                val bundle = Bundle()
+                bundle.putString("id", adapter.returnData()[position].id)
+                navc?.navigate(R.id.action_page3Fragment_to_deatilFragment,bundle)
+            }
+        })
     }
 
     private fun handleProfileImage() {
@@ -197,6 +214,14 @@ class Page3Fragment : Fragment() {
 
             }
         })
+        adapter.setOnItemClickListener(object : FavCoinAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+                Log.v("AdiTag","Item clicked")
+                val bundle = Bundle()
+                bundle.putString("id", adapter.returnData()[position].id)
+                navc?.navigate(R.id.action_page3Fragment_to_deatilFragment,bundle)
+            }
+        })
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -213,6 +238,14 @@ class Page3Fragment : Fragment() {
                 it.setHasFixedSize(true)
                 it.adapter = adapter
                 renderPhotosList(coins.sortedByDescending { it.name })
+            }
+        })
+        adapter.setOnItemClickListener(object : FavCoinAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+                Log.v("AdiTag","Item clicked")
+                val bundle = Bundle()
+                bundle.putString("id", adapter.returnData()[position].id)
+                navc?.navigate(R.id.action_page3Fragment_to_deatilFragment,bundle)
             }
         })
     }

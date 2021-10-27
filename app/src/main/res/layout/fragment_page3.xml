@@ -202,6 +202,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="15dp"
             android:switchMinWidth="56dp"
+            android:theme="@style/Theme.SwitchTheme"
             ></Switch>
         <TextView
             android:layout_width="wrap_content"

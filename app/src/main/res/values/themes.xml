@@ -55,4 +55,9 @@
         <!-- Icon Color -->
         <item name="android:tint">@color/black</item>
     </style>
+    <style name="Theme.SwitchTheme" parent="Theme.AppCompat.Light">
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/blue_price</item>
+
+    </style>
 </resources>

@@ -16,7 +16,8 @@
         android:theme="@style/Theme.MyApplication">
         <activity
             android:name="com.example.myapplication.ui.activities.UserActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.example.myapplication.ui.activities.SplashScreenAcivity"
             android:exported="true"

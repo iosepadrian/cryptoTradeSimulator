@@ -55,7 +55,7 @@
             app:layout_constraintBottom_toBottomOf="@id/verticalline1"
             app:layout_constraintLeft_toRightOf="@id/verticalline1"
             android:textSize="20dp"
-            android:text="32123 coins"
+            android:text="0 coins"
             android:textStyle="bold"
             android:textColor="@color/blue_price"
             android:elegantTextHeight="true"

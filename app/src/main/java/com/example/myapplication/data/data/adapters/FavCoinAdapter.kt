@@ -18,10 +18,21 @@ import java.util.ArrayList
 
 class FavCoinAdapter() : RecyclerView.Adapter<FavCoinAdapter.ViewHolder>(), Filterable {
 
+    private lateinit var mListener: onItemClickListener
     private lateinit var coins: List<Favcoin>
     private lateinit var coinsFiltered: List<Favcoin>
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    interface onItemClickListener{
+        fun onItemClick(position: Int)
+    }
+
+    fun setOnItemClickListener(listener: onItemClickListener) {
+
+        mListener=listener
+
+
+    }
+    inner class ViewHolder(itemView: View,listener: FavCoinAdapter.onItemClickListener) : RecyclerView.ViewHolder(itemView) {
 
         var nume: TextView
         var img:ImageView
@@ -29,14 +40,16 @@ class FavCoinAdapter() : RecyclerView.Adapter<FavCoinAdapter.ViewHolder>(), Filt
         init {
             nume = itemView.findViewById(R.id.namefavcoin)
             img=itemView.findViewById(R.id.orangefavimg)
-
+            itemView.setOnClickListener{
+                listener.onItemClick(adapterPosition)
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavCoinAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context)
             .inflate(R.layout.favorite_card_view, parent, false)
-        return ViewHolder(v)
+        return ViewHolder(v,mListener)
     }
 
     override fun onBindViewHolder(holder: FavCoinAdapter.ViewHolder, position: Int) {

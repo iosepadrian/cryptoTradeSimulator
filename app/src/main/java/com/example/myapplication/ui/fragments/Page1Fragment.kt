@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
@@ -27,6 +28,7 @@ import com.example.myapplication.ui.fragments.tabFragments.OverviewFragment
 import com.example.myapplication.ui.fragments.tabFragments.TasksFragment
 import com.example.myapplication.ui.fragments.tabFragments.TradesFragment
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.fragment_page1.view.*
 
 class Page1Fragment : Fragment() {
 
@@ -66,10 +68,18 @@ class Page1Fragment : Fragment() {
         adapter= CoinsListAdapter()
 
         viewModel.favcoin.observe(viewLifecycleOwner, { details ->
+            Log.v("AdiTag",details.size.toString())
+            if(details.isEmpty())
+            {
+                viewOfLayout.noCoinsTextView.visibility=View.VISIBLE
+            }
+            else{
+                viewOfLayout.noCoinsTextView.visibility=View.INVISIBLE
+            }
             adapter.submitList(details)
             recyclerView.also {
                 if (it != null) {
-                    it.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+                    it.layoutManager = GridLayoutManager(requireContext(),2,LinearLayoutManager.HORIZONTAL,false)
                     it.setHasFixedSize(true)
                     it.adapter = adapter
                 }

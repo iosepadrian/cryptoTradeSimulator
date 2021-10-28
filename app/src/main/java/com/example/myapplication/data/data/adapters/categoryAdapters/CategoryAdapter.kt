@@ -61,15 +61,15 @@ class CategoryAdapter(
             )
         holder.mSubRecyclerView.layoutManager = manager
         holder.mSubRecyclerView.adapter = adapter
-        if (position == clickedPosition) {
+      /*  if (position == clickedPosition) {
             holder.mSubRecyclerView.visibility = View.VISIBLE
-            holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
+            holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22F)
             holder.name.setTypeface(null, Typeface.BOLD)
         } else {
             holder.mSubRecyclerView.visibility = View.GONE
-            holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F)
+            holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 19F)
             holder.name.setTypeface(null, Typeface.NORMAL)
-        }
+        }*/
 
         holder.row.setOnClickListener {
             if (clickedPosition != position) {
@@ -77,7 +77,7 @@ class CategoryAdapter(
                 subClickedPosition = -1
                 notifyDataSetChanged()
             } else {
-                holder.mSubRecyclerView.visibility = View.GONE
+                //holder.mSubRecyclerView.visibility = View.GONE
                 clickedPosition = -1
                 subClickedPosition = -1
                 notifyDataSetChanged()

@@ -768,7 +768,7 @@ class DeatilFragment : Fragment() {
                 favImageView.tag = R.drawable.ic_filledheart
                 favImageView.setColorFilter(Color.parseColor("#FF0000"))
                 viewModel.topDetails.observe(viewLifecycleOwner, { topDetails ->
-                    val favcoin = Favcoin(id, view.headerId.text.toString(),topDetails.symbol,topDetails.image.small,topDetails.coingecko_rank)
+                    val favcoin = Favcoin(id, view.headerId.text.toString(),topDetails.symbol,topDetails.image.small,topDetails.market_cap_rank)
                     db.favCoinDao().insert(favcoin)
                 })
             }
@@ -778,7 +778,7 @@ class DeatilFragment : Fragment() {
                 favImageView.tag = R.drawable.ic_emplyheart
                 favImageView.setColorFilter(Color.parseColor("#444444"))
                 viewModel.topDetails.observe(viewLifecycleOwner, { topDetails ->
-                    val favcoin = Favcoin(id, view.headerId.text.toString(),topDetails.symbol,topDetails.image.small,topDetails.coingecko_rank)
+                    val favcoin = Favcoin(id, view.headerId.text.toString(),topDetails.symbol,topDetails.image.small,topDetails.market_cap_rank)
                     db.favCoinDao().delete(favcoin)
                 })
             }

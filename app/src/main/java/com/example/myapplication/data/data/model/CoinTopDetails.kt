@@ -10,7 +10,8 @@ class CoinTopDetails (
     @SerializedName("image") val image : Image,
     @SerializedName("description") val description : Description,
     @SerializedName("links") val links : Links,
-    @SerializedName("coingecko_rank") val coingecko_rank : String
+    @SerializedName("coingecko_rank") val coingecko_rank : String,
+    @SerializedName("market_cap_rank") val market_cap_rank : String,
 
 
 ) {

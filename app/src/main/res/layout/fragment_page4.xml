@@ -4,33 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.Page4Fragment">
+    tools:context=".ui.fragments.Page4Fragment"
+    android:background="@color/white">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="50dp"
-            >
+
             <androidx.recyclerview.widget.RecyclerView
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/categoryRecyclerView"
                 android:paddingBottom="70dp"
                 ></androidx.recyclerview.widget.RecyclerView>
-        </LinearLayout>
 
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabIndicatorAnimationMode="elastic"
+            app:tabMode="scrollable"
+            app:tabBackground="@drawable/tab_selector_category"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/black"
+            ></com.google.android.material.tabs.TabLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
 </FrameLayout>

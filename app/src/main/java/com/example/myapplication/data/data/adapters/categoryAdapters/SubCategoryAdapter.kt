@@ -16,6 +16,8 @@ import android.graphics.Typeface
 import android.util.TypedValue
 import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
+import com.example.myapplication.data.data.model.Image
+import kotlinx.android.synthetic.main.subcategory_card_view.view.*
 import java.lang.String
 
 
@@ -34,11 +36,13 @@ class SubCategoryAdapter(
     class MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
         var name: TextView
         var description: TextView
+        var img:ImageView
         var row:CardView
         init {
             name = itemView.findViewById(R.id.subcategoryname)
             description = itemView.findViewById(R.id.subcategorydescription)
             row=itemView.findViewById(R.id.subCategoryCardView)
+            img=itemView.subcategoryimage
         }
     }
 
@@ -51,18 +55,9 @@ class SubCategoryAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.name.text = subcategoylist?.get(position)!!.name
         holder.description.text = subcategoylist?.get(position)!!.description
+        holder.img.setImageResource(R.drawable.food)
 
-        if (position === clickedPosition) {
-            holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
-            holder.name.setTypeface(null, Typeface.BOLD)
-            holder.description.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
-            holder.description.setTypeface(null, Typeface.BOLD)
-        } else {
-            holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F)
-            holder.name.setTypeface(null, Typeface.NORMAL)
-            holder.description.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F)
-            holder.description.setTypeface(null, Typeface.NORMAL)
-        }
+
 
         holder.row.setOnClickListener(View.OnClickListener {
             if (clickedPosition !== position) {

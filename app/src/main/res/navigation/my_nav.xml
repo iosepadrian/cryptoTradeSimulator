@@ -25,7 +25,11 @@
         android:id="@+id/page1Fragment"
         android:name="com.example.myapplication.ui.fragments.Page1Fragment"
         android:label="fragment_page1"
-        tools:layout="@layout/fragment_page1" />
+        tools:layout="@layout/fragment_page1">
+        <action
+            android:id="@+id/action_page1Fragment_to_deatilFragment"
+            app:destination="@id/deatilFragment" />
+    </fragment>
     <fragment
         android:id="@+id/page2Fragment"
         android:name="com.example.myapplication.ui.fragments.Page2Fragment"

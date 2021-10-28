@@ -56,7 +56,7 @@ class Page3Fragment : Fragment() {
 
 
         viewOfLayout = inflater.inflate(R.layout.fragment_page3, container, false)
-        viewModel= ViewModelProvider(this).get(FavCoinModelView::class.java)
+        viewModel= ViewModelProvider(requireActivity()).get(FavCoinModelView::class.java)
 
         val recyclerView =  viewOfLayout.favoriterecyclerView
 

@@ -767,16 +767,20 @@ class DeatilFragment : Fragment() {
                 favImageView.setImageResource(R.drawable.ic_filledheart)
                 favImageView.tag = R.drawable.ic_filledheart
                 favImageView.setColorFilter(Color.parseColor("#FF0000"))
-                val favcoin= Favcoin(id,view.headerId.text.toString())
-                db.favCoinDao().insert(favcoin)
+                viewModel.topDetails.observe(viewLifecycleOwner, { topDetails ->
+                    val favcoin = Favcoin(id, view.headerId.text.toString(),topDetails.symbol,topDetails.image.small,topDetails.coingecko_rank)
+                    db.favCoinDao().insert(favcoin)
+                })
             }
             else
             {
                 favImageView.setImageResource(R.drawable.ic_emplyheart)
                 favImageView.tag = R.drawable.ic_emplyheart
                 favImageView.setColorFilter(Color.parseColor("#444444"))
-                val favcoin= Favcoin(id,view.headerId.text.toString())
-                db.favCoinDao().delete(favcoin)
+                viewModel.topDetails.observe(viewLifecycleOwner, { topDetails ->
+                    val favcoin = Favcoin(id, view.headerId.text.toString(),topDetails.symbol,topDetails.image.small,topDetails.coingecko_rank)
+                    db.favCoinDao().delete(favcoin)
+                })
             }
 
         }

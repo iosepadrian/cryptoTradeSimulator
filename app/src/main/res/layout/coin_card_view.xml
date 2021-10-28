@@ -14,14 +14,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:cardCornerRadius="20dp"
         app:cardBackgroundColor="@color/white"
-        android:padding="4dp"
-        android:elevation="8dp"
-        app:cardElevation="8dp"
+        android:padding="3dp"
+        android:elevation="3dp"
+        app:cardElevation="3dp"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:elevation="20dp"
+            android:elevation="3dp"
             android:background="@color/light_blue"
             >
             <ImageView
@@ -32,7 +32,6 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/eth"
                 ></ImageView>
             <TextView
                 android:id="@+id/coinName"
@@ -54,17 +53,19 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:text="BTC"
+                android:textStyle="bold"
+                android:textColor="@color/white"
                 ></TextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/percentageCoin"
+                android:id="@+id/rankCoin"
                 app:layout_constraintTop_toBottomOf="@+id/coinAbbreviation"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:text="+ 49.51%"
+                android:text="# 1"
                 android:textStyle="bold"
-                android:textColor="@color/green"
+                android:textColor="@color/grey"
                 ></TextView>
         </androidx.constraintlayout.widget.ConstraintLayout>
         

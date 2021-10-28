@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.myapplication.R
+import com.example.myapplication.modelView.FavCoinModelView
 import com.example.myapplication.modelView.UserViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +26,7 @@ class UserActivity : AppCompatActivity() {
             apply()
         }*/
 
+        val viewModel=ViewModelProvider(this).get(FavCoinModelView::class.java)
 
         val sharedPreferences: SharedPreferences =
             this.getSharedPreferences("autoLogin", MODE_PRIVATE)

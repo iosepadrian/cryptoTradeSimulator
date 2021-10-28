@@ -16,13 +16,11 @@ class CoinListAdapter(private val coinList: List<Coin>) :RecyclerView.Adapter<Co
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var nume: TextView
-        var percentage: TextView
         var abrev: TextView
         var img: ImageView
 
         init {
             nume = itemView.findViewById(R.id.coinName)
-            percentage = itemView.findViewById(R.id.percentageCoin)
             abrev = itemView.findViewById(R.id.coinAbbreviation)
             img=itemView.findViewById(R.id.coinImageView)
         }
@@ -42,7 +40,6 @@ class CoinListAdapter(private val coinList: List<Coin>) :RecyclerView.Adapter<Co
 
         holder.nume.text=coin.nume
         holder.abrev.text=coin.nameAbbrev
-        holder.percentage.text=coin.percentage
         when(coin.nameAbbrev){
             "BTC" -> holder.img.setImageResource(R.drawable.btc)
             "ETH" -> holder.img.setImageResource(R.drawable.eth)

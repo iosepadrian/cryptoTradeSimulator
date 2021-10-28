@@ -62,7 +62,7 @@ class FavCoinAdapter() : RecyclerView.Adapter<FavCoinAdapter.ViewHolder>(), Filt
 
         holder.img.setOnClickListener {
             val db= FavCoinDatabase.getDatabase(holder.img.context)
-            val favcoin= Favcoin(coin.id,coin.name)
+            val favcoin= Favcoin(coin.id,coin.name,coin.symbol,coin.image,coin.rank)
             db.favCoinDao().delete(favcoin)
         }
 

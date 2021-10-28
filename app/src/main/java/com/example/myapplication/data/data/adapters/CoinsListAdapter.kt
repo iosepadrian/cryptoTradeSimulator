@@ -8,37 +8,50 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.data.data.model.Coin
+import com.example.myapplication.data.data.model.Favcoin
 import kotlinx.android.synthetic.main.coin_card_view.view.*
+import kotlinx.android.synthetic.main.fragment_deatil.view.*
 
 
-class CoinsListAdapter: ListAdapter<Coin, CoinsListAdapter.CoinsViewHolder>(CoinDiffCallback()) {
+class CoinsListAdapter(): ListAdapter<Favcoin, CoinsListAdapter.CoinsViewHolder>(CoinDiffCallback()) {
+    private lateinit var mListener: CoinsListAdapter.onItemClickListener
 
 
-    class CoinsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    fun setOnItemClickListener(listener: CoinsListAdapter.onItemClickListener) {
+
+        mListener=listener
+
+
+    }
+    fun returnData(): List<Favcoin> {
+        return currentList
+    }
+    class CoinsViewHolder(itemView: View,listener: CoinsListAdapter.onItemClickListener): RecyclerView.ViewHolder(itemView) {
         var nume: TextView
-        var percentage: TextView
         var abrev: TextView
         var img: ImageView
+        var rank: TextView
 
         init {
             nume = itemView.coinName
-            percentage = itemView.percentageCoin
             abrev = itemView.coinAbbreviation
             img=itemView.findViewById(R.id.coinImageView)
+            rank=itemView.rankCoin
+            itemView.setOnClickListener{
+                listener.onItemClick(adapterPosition)
+            }
         }
 
 
-        fun bind(coin: Coin) {
-            nume.text=coin.nume
-            abrev.text=coin.nameAbbrev
-            percentage.text=coin.percentage
-            when(coin.nameAbbrev){
-                "BTC" -> img.setImageResource(R.drawable.btc)
-                "ETH" -> img.setImageResource(R.drawable.eth)
-                "SOL" -> img.setImageResource(R.drawable.sol)
-            }
+        fun bind(coin: Favcoin) {
+            nume.text=coin.name
+            abrev.text=coin.symbol
+            rank.text="#"+coin.rank
+            Glide.with(img.context).load(coin.image).into(img)
+
         }
 
 
@@ -48,7 +61,7 @@ class CoinsListAdapter: ListAdapter<Coin, CoinsListAdapter.CoinsViewHolder>(Coin
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinsViewHolder {
         val v = LayoutInflater.from(parent.context)
             .inflate(R.layout.coin_card_view, parent, false)
-        return CoinsViewHolder(v)
+        return CoinsViewHolder(v,mListener)
     }
 
     override fun onBindViewHolder(holder: CoinsViewHolder, position: Int) {
@@ -59,16 +72,18 @@ class CoinsListAdapter: ListAdapter<Coin, CoinsListAdapter.CoinsViewHolder>(Coin
 
 
 
-    class CoinDiffCallback: DiffUtil.ItemCallback<Coin>(){
-        override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean {
-            return oldItem.nume==newItem.nume
+    class CoinDiffCallback: DiffUtil.ItemCallback<Favcoin>(){
+        override fun areItemsTheSame(oldItem: Favcoin, newItem: Favcoin): Boolean {
+            return oldItem.id==newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean {
+        override fun areContentsTheSame(oldItem: Favcoin, newItem: Favcoin): Boolean {
             return areItemsTheSame(oldItem,newItem)
         }
     }
-
+    interface onItemClickListener{
+        fun onItemClick(position: Int)
+    }
 }
 
 

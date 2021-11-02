@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     else{
                         Toast.makeText(applicationContext,
-                            "There is no user in database!", Toast.LENGTH_SHORT)
+                            "There is no account created!", Toast.LENGTH_SHORT)
                             .show()
                     }
 

@@ -17,7 +17,11 @@
         android:id="@+id/page4Fragment"
         android:name="com.example.myapplication.ui.fragments.Page4Fragment"
         android:label="fragment_page4"
-        tools:layout="@layout/fragment_page4" />
+        tools:layout="@layout/fragment_page4" >
+        <action
+            android:id="@+id/action_page4Fragment_to_viewallFragment"
+            app:destination="@id/viewAllFragment" />
+    </fragment>
 
 
 
@@ -44,4 +48,10 @@
         android:name="com.example.myapplication.ui.fragments.DeatilFragment"
         android:label="fragment_deatil"
         tools:layout="@layout/fragment_deatil" />
+    <fragment
+        android:id="@+id/viewAllFragment"
+        android:name="com.example.myapplication.ui.fragments.ViewAllFragment"
+        android:label="fragment_viewAll"
+        tools:layout="@layout/fragment_view_all"/>
+
 </navigation>

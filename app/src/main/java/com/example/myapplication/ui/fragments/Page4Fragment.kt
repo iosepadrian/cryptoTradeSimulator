@@ -1,12 +1,15 @@
 package com.example.myapplication.ui.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmadhamwi.tabsync.TabbedListMediator
@@ -15,6 +18,7 @@ import com.example.myapplication.data.data.adapters.categoryAdapters.CategoryAda
 import com.example.myapplication.data.data.adapters.categoryAdapters.SubCategoryAdapter
 import com.example.myapplication.data.data.api.ApiService
 import com.example.myapplication.data.data.model.Category
+import com.example.myapplication.data.data.model.CoinApi
 import kotlinx.android.synthetic.main.fragment_page4.view.*
 import com.example.myapplication.data.data.model.SubCategory
 import com.example.myapplication.modelView.CoinViewModel
@@ -26,12 +30,16 @@ import com.google.android.material.tabs.TabLayout
 class Page4Fragment : Fragment() {
 
     private lateinit var viewOfLayout: View
-    private var categoryList= ArrayList<Category>()
     private var selectedSubCatPosition: Int = 0
     private lateinit var tabLayout:TabLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: CoinViewModel
     private lateinit var factory: ViewModelFactory
+    var navc: NavController?=null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navc= Navigation.findNavController(view)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,20 +67,39 @@ class Page4Fragment : Fragment() {
         return viewOfLayout
     }
 
-    private fun initRecycler() {
+    private fun initRecycler(categoryList: ArrayList<Category>) {
         val manager=LinearLayoutManager(requireContext())
         val adapter=CategoryAdapter(requireContext(),categoryList,-1,-1)
         recyclerView.layoutManager=manager
         recyclerView.adapter=adapter
         adapter.setOnItemClickListener(object : CategoryAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
-                Log.v("AdiTag","Item clicked")
+                val bundle = Bundle()
+                bundle.putSerializable(
+                    "SubCategory",
+                    adapter.returnData()[position].subcategoryList.toMutableList() as ArrayList<out Parcelable?>?
+                )
+                navc?.navigate(R.id.action_page4Fragment_to_viewallFragment,bundle)
             }
         })
 
     }
+    private var allowRefresh = false
+    override fun onResume() {
+        super.onResume()
+        //Initialize();
+        if (allowRefresh) {
+            allowRefresh = false
+            //call your initialization code here
+        }
+    }
 
-    private fun initMediator() {
+    override fun onPause() {
+        super.onPause()
+        if (!allowRefresh) allowRefresh = true
+    }
+
+    private fun initMediator(categoryList: ArrayList<Category>) {
         TabbedListMediator(
             recyclerView,
             tabLayout,
@@ -81,7 +108,8 @@ class Page4Fragment : Fragment() {
         ).attach()
     }
 
-    private fun initTabLayout() {
+    private fun initTabLayout(categoryList: ArrayList<Category>) {
+        tabLayout.removeAllTabs()
         for(category in categoryList){
             tabLayout.addTab(tabLayout.newTab().setText(category.name))
         }
@@ -89,14 +117,21 @@ class Page4Fragment : Fragment() {
 
 
     private fun createDummyData() {
-        var ex1= ArrayList<SubCategory>()
-        var ex2= ArrayList<SubCategory>()
-        var ex3= ArrayList<SubCategory>()
-        var ex4= ArrayList<SubCategory>()
-        var ex5= ArrayList<SubCategory>()
 
 
         viewModel.coins.observe(viewLifecycleOwner, { coins ->
+            var ex1= ArrayList<SubCategory>()
+            var ex2= ArrayList<SubCategory>()
+            var ex3= ArrayList<SubCategory>()
+            var ex4= ArrayList<SubCategory>()
+            var ex5= ArrayList<SubCategory>()
+            var categoryList= ArrayList<Category>()
+            categoryList.clear()
+            ex1.clear()
+            ex2.clear()
+            ex3.clear()
+            ex4.clear()
+            ex5.clear()
                 for (coin in coins)
                 {
                     if (coin.current_price<1) {
@@ -169,12 +204,10 @@ class Page4Fragment : Fragment() {
             categoryList.add(Category(4, "100$-1000$",ex4.sortedByDescending { it.price }))
             categoryList.add(Category(5, "1000$-100000$",ex5.sortedByDescending { it.price }))
 
-            initRecycler()
-            initTabLayout()
-            initMediator()
+            initRecycler(categoryList)
+            initTabLayout(categoryList)
+            initMediator(categoryList)
         })
-
-
     }
 
 

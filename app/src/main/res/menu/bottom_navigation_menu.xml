@@ -23,4 +23,5 @@
         android:title="ExtraPage"
         android:icon="@drawable/ic_category"
         />
+
 </menu>

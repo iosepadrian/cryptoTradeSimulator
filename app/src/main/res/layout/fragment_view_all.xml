@@ -11,6 +11,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 >
+
+        <SearchView
+            android:id="@+id/viewallsearch"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:queryHint="Search coins"
+            app:queryHint="Search coins"
+            app:defaultQueryHint="Search coins"
+            android:iconifiedByDefault="false"
+            app:iconifiedByDefault="false"
+            android:searchIcon="@drawable/ic_searchicin"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            app:queryBackground="@drawable/search_rounded"
+            app:submitBackground="@drawable/search_rounded"
+            android:background="@drawable/search_rounded"
+
+            >
+
+            <requestFocus />
+        </SearchView>
+
+
     <androidx.recyclerview.widget.RecyclerView
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

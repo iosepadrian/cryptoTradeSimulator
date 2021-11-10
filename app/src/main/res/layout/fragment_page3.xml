@@ -150,20 +150,22 @@
             android:textSize="17dp"
             android:textColor="@color/black"
             ></TextView>
+
         <EditText
             android:id="@+id/usernameedittext"
             android:layout_width="384dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/nameTextView"
-            app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="15dp"
-            app:layout_constraintRight_toRightOf="parent"
             android:layout_marginRight="15dp"
-            android:textColorHint="@color/grey"
             android:hint="Username"
-            android:singleLine="true"
             android:imeOptions="actionDone"
-            ></EditText>
+            android:singleLine="true"
+            android:textColorHint="@color/grey"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameTextView"></EditText>
+
         <TextView
             android:id="@+id/emailtextview"
             android:layout_width="wrap_content"

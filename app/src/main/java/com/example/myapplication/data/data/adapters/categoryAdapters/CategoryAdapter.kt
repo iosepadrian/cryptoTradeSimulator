@@ -1,5 +1,6 @@
 package com.example.myapplication.data.data.adapters.categoryAdapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,8 @@ import androidx.cardview.widget.CardView
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.data.data.adapters.CoinApiAdapter
+import com.example.myapplication.data.data.model.CoinApi
+import com.example.myapplication.data.data.model.SubCategory
 import kotlinx.android.synthetic.main.categoty_card_view.view.*
 
 
@@ -30,7 +33,8 @@ class CategoryAdapter(
 
 ) : RecyclerView.Adapter<MyViewHolder>(){
     private lateinit var mListener: onItemClickListener
-
+    private lateinit var adapter:SubCategoryAdapter
+    private lateinit var adapter2:SubCategoryAdapter
     interface onItemClickListener{
         fun onItemClick(position: Int)
     }
@@ -64,45 +68,42 @@ class CategoryAdapter(
             .inflate(R.layout.categoty_card_view, parent, false)
         return MyViewHolder(v,mListener)
     }
+    @SuppressLint("NotifyDataSetChanged")
+    private fun renderCoinsList(coinsList: List<SubCategory>) {
+        adapter.addData(coinsList)
+        adapter.notifyDataSetChanged()
 
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    private fun renderCoinsList2(coinsList: List<SubCategory>) {
+        adapter2.addData(coinsList)
+        adapter2.notifyDataSetChanged()
+
+    }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.name.setText(categoryList.get(position).name)
         val manager = LinearLayoutManager(context)
-        val adapter = SubCategoryAdapter(
-            object : SubCategoryAdapter.SubSelectionInterface {
-                override fun onsubselection(position: Int) {
-                    subClickedPosition = position
-                }
-            },
-            categoryList[position].subcategoryList,
-            -1,
-            )
+        adapter = SubCategoryAdapter()
         holder.mSubRecyclerView.layoutManager = manager
         holder.mSubRecyclerView.adapter = adapter
+        renderCoinsList(categoryList[position].subcategoryList)
         adapter.setOnItemClickListener(object : SubCategoryAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
                 Log.v("AdiTag","Item clicked")
             }
         })
         val manager2 = LinearLayoutManager(context)
-        val adapter2 = SubCategoryAdapter(
-            object : SubCategoryAdapter.SubSelectionInterface {
-                override fun onsubselection(position: Int) {
-                    subClickedPosition = position
-                }
-            },
-            categoryList[position].subcategoryList.subList(0,5),
-            -1,
-        )
+        adapter2 = SubCategoryAdapter()
         holder.mSubRecyclerView2.layoutManager = manager2
         holder.mSubRecyclerView2.adapter = adapter2
+        renderCoinsList2(categoryList[position].subcategoryList.subList(0,5))
         adapter2.setOnItemClickListener(object : SubCategoryAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
                 Log.v("AdiTag","Item clicked")
             }
         })
 
-        if (position == clickedPosition) {
+        /*if (position == clickedPosition) {
             holder.mSubRecyclerView.visibility = View.VISIBLE
             holder.mSubRecyclerView2.visibility = View.GONE
             holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24F)
@@ -127,7 +128,7 @@ class CategoryAdapter(
                 subClickedPosition = -1
                 notifyDataSetChanged()
             }
-        }
+        }*/
     }
 
     override fun getItemCount(): Int {
@@ -140,6 +141,9 @@ class CategoryAdapter(
 
     fun getSubCategoryPosition(): Int {
         return subClickedPosition
+    }
+    fun returnData(): List<Category> {
+        return categoryList
     }
 }
 

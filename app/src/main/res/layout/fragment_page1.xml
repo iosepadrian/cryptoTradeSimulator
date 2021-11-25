@@ -13,7 +13,7 @@
         <!-- TODO: Update blank fragment layout -->
 
 
-        <com.google.android.material.card.MaterialCardView
+        <!--<com.google.android.material.card.MaterialCardView
             android:id="@+id/topLayoutCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             app:strokeColor="?attr/colorAccent"
             app:strokeWidth="1dp">
 
-            <com.google.android.material.tabs.TabLayout
+            &lt;!&ndash;<com.google.android.material.tabs.TabLayout
                 android:id="@+id/fragment1tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,30 +66,163 @@
 
                 </com.google.android.material.tabs.TabItem>
 
-            </com.google.android.material.tabs.TabLayout>
-        </com.google.android.material.card.MaterialCardView>
+            </com.google.android.material.tabs.TabLayout>&ndash;&gt;
+        </com.google.android.material.card.MaterialCardView>-->
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewpager"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="40dp"
-            app:layout_constraintRight_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/topLayoutCardView"></androidx.viewpager.widget.ViewPager>
+            android:layout_height="175dp"
+            android:backgroundTint="@color/dark_blue"
+            app:cardCornerRadius="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:elevation="8dp"
+            app:cardElevation="8dp"
+            app:cardPreventCornerOverlap="false"
+            app:layout_constraintTop_toBottomOf="@id/yourdashboardid"
+            android:id="@+id/dashboard"
+            >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/balanceTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="@id/buyButton"
+                    app:layout_constraintRight_toRightOf="@id/buyButton"
+                    android:textColor="@color/white"
+                    android:text="Balance (USD)"
+                    android:textSize="15dp"
+                    android:layout_marginTop="20dp"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/transactionsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@+id/balanceTextView"
+                    app:layout_constraintLeft_toLeftOf="@id/viewButton"
+                    app:layout_constraintRight_toRightOf="@id/viewButton"
+                    android:textColor="@color/white"
+                    android:text="Transactions"
+                    android:textSize="15dp"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/walletsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@+id/balanceTextView"
+                    app:layout_constraintLeft_toLeftOf="@id/manageButton"
+                    app:layout_constraintRight_toRightOf="@id/manageButton"
+                    android:textColor="@color/white"
+                    android:text="Wallets"
+                    android:textSize="15dp"
+                    ></TextView>
 
+                <TextView
+                    android:id="@+id/balanceValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/balanceTextView"
+                    app:layout_constraintLeft_toLeftOf="@id/buyButton"
+                    app:layout_constraintRight_toRightOf="@id/buyButton"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/gold"
+                    android:text="$ 1200"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/transactionsValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/transactionsTextView"
+                    app:layout_constraintLeft_toLeftOf="@id/viewButton"
+                    app:layout_constraintRight_toRightOf="@id/viewButton"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/white"
+                    android:text="15"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/walletsValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/walletsTextView"
+                    app:layout_constraintLeft_toLeftOf="@id/manageButton"
+                    app:layout_constraintRight_toRightOf="@id/manageButton"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/white"
+                    android:text="1"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    ></TextView>
+
+                <Button
+                    android:id="@+id/buyButton"
+                    android:layout_width="95dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/viewButton"
+                    android:layout_marginBottom="20dp"
+                    android:text="Buy"
+                    android:textSize="12dp"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@null"
+                    android:background="@drawable/rounded_button_dark_blue"
+                    android:textAllCaps="false"
+                    ></Button>
+                <Button
+                    android:id="@+id/viewButton"
+                    android:layout_width="95dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/buyButton"
+                    app:layout_constraintRight_toLeftOf="@id/manageButton"
+                    android:layout_marginBottom="20dp"
+                    android:text="View"
+                    android:textSize="12dp"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@null"
+                    android:background="@drawable/rounded_button_dark_blue"
+                    android:textAllCaps="false"
+                    ></Button>
+
+                <Button
+                    android:id="@+id/manageButton"
+                    android:layout_width="95dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/viewButton"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginBottom="20dp"
+                    android:text="Manage"
+                    android:textColor="@color/white"
+                    android:textSize="12dp"
+                    app:backgroundTint="@null"
+                    android:background="@drawable/rounded_button_dark_blue"
+                    android:textAllCaps="false"
+                    ></Button>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
         <TextView
+            android:id="@+id/yourdashboardid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="40dp"
             android:text="Your Dashboard"
             android:textColor="@color/black"
             android:textSize="25dp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/topLayoutCardView">
+            app:layout_constraintTop_toTopOf="parent">
 
         </TextView>
 
@@ -98,12 +231,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
             android:text="Your Currencies"
             android:textColor="@color/black"
             android:textSize="25dp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewpager"></TextView>
+            app:layout_constraintTop_toBottomOf="@id/dashboard"></TextView>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/rlMain"

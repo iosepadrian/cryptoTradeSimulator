@@ -40,6 +40,7 @@ class Page1Fragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navc= Navigation.findNavController(view)
     }
+    private lateinit var userviewModel:UserViewModel
     @SuppressLint("WrongConstant")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,19 +52,15 @@ class Page1Fragment : Fragment() {
 
         viewModel= ViewModelProvider(requireActivity()).get(FavCoinModelView::class.java)
 
-        val tab = viewOfLayout.findViewById<TabLayout>(R.id.fragment1tabLayout)
-        val viewPager = viewOfLayout.findViewById<ViewPager>(R.id.viewpager)
-        val pagerAdapters = PagerAdapter(childFragmentManager)
-        pagerAdapters.addFragment(OverviewFragment(),"Overview")
-        pagerAdapters.addFragment(TasksFragment(),"Tasks")
-        pagerAdapters.addFragment(TradesFragment(),"Trades")
-        pagerAdapters.addFragment(LabelFragment(),"Label")
-        viewPager.adapter=pagerAdapters
-        tab.setupWithViewPager(viewPager)
+        userviewModel=ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
 
         val recyclerView =  viewOfLayout.findViewById<RecyclerView>(R.id.coinRecyclerView)
 
+        userviewModel.user.observe(viewLifecycleOwner,{ user->
+            viewOfLayout.balanceValue.text="$ "+user.balance.toString()
+            viewOfLayout.transactionsValue.text=user.noOfTransactions.toString()
+       })
 
         adapter= CoinsListAdapter()
 
@@ -76,6 +73,7 @@ class Page1Fragment : Fragment() {
             else{
                 viewOfLayout.noCoinsTextView.visibility=View.INVISIBLE
             }
+
             adapter.submitList(details)
             recyclerView.also {
                 if (it != null) {

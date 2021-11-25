@@ -31,6 +31,7 @@ class CoinViewModel(private val coinRepository: CoinRepository) : ViewModel() {
         super.onCleared()
         if(::job.isInitialized) job.cancel()
     }
+
 }
 
 

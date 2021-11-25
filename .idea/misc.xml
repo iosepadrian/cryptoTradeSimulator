@@ -3,6 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/adiio/AndroidStudioProjects/FirstTest/app/src/main/res/layout/activity_main.xml" value="0.2653985507246377" />
+        <entry key="..\:/Users/adiio/AndroidStudioProjects/FirstTest/app/src/main/res/layout/activity_splash_screen_acivity.xml" value="0.17777777777777778" />
+        <entry key="..\:/Users/adiio/AndroidStudioProjects/FirstTest/app/src/main/res/layout/activity_user.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/adiio/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_deatil.xml" value="0.1" />
+        <entry key="..\:/Users/adiio/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_label.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/adiio/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_one_day_chart.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/adiio/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_page1.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/adiio/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_page2.xml" value="0.12056737588652482" />
+        <entry key="..\:/Users/adiio/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_page3.xml" value="0.24791666666666667" />
+        <entry key="..\:/Users/adiio/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_page4.xml" value="0.24791666666666667" />
+        <entry key="..\:/Users/adiio/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_seven_days_chart.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/adiio/AndroidStudioProjects/FirstTest/app/src/main/res/layout/fragment_tasks.xml" value="0.1" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/drawable-anydpi/ic_coins.xml" value="0.24791666666666667" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/drawable-anydpi/ic_filledheart.xml" value="0.24791666666666667" />
         <entry key="..\:/Users/adrian.iosep/AndroidStudioProjects/FirstTest/app/src/main/res/drawable-anydpi/ic_navigation_bottom.xml" value="0.3828125" />
@@ -59,7 +71,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="openjdk-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

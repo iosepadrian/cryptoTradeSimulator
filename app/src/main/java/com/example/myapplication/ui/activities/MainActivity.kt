@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.example.myapplication.R
@@ -28,7 +29,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -95,7 +95,9 @@ class MainActivity : AppCompatActivity() {
                     if(model.loadAllUsers().isNotEmpty()) {
                         model.deleteUser(model.user.value)
                     }
-                    val userToAdd = User("0", username, password,"")
+                    val invest= HashMap<String,Float>()
+                    invest.put("tether",10000f)
+                    val userToAdd = User("0", username, password,"",10000f,0)
                     model.insertUser(userToAdd)
                     val i = Intent(this@MainActivity, UserActivity::class.java)
                     startActivity(i)

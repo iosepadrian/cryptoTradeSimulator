@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e9cf137406e3f0d0ff0237117319654f",
+    "identityHash": "8bb67e6eedfa8e73aa656f3616a5d0ca",
     "entities": [
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `password` TEXT, `username` TEXT, `uri` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `password` TEXT, `username` TEXT, `uri` TEXT, `balance` REAL, `noOfTransactions` INTEGER, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -31,6 +31,18 @@
             "columnName": "uri",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "balance",
+            "columnName": "balance",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "noOfTransactions",
+            "columnName": "noOfTransactions",
+            "affinity": "INTEGER",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -46,7 +58,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e9cf137406e3f0d0ff0237117319654f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8bb67e6eedfa8e73aa656f3616a5d0ca')"
     ]
   }
 }

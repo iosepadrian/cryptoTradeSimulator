@@ -27,7 +27,7 @@ class UserActivity : AppCompatActivity() {
         }*/
 
         val viewModel=ViewModelProvider(this).get(FavCoinModelView::class.java)
-
+        val viewModel2=ViewModelProvider(this).get(UserViewModel::class.java)
         val sharedPreferences: SharedPreferences =
             this.getSharedPreferences("autoLogin", MODE_PRIVATE)
         val editor = sharedPreferences.edit()

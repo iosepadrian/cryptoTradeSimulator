@@ -43,18 +43,20 @@ class Page3Fragment : Fragment() {
     private lateinit var viewOfLayout: View
     private lateinit var adapter:FavCoinAdapter
     private lateinit var viewModel: FavCoinModelView
+    private lateinit var userviewModel:UserViewModel
     var navc: NavController?=null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navc= Navigation.findNavController(view)
     }
-    private val activityViewModel: UserViewModel by viewModels()
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-
+        userviewModel=ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         viewOfLayout = inflater.inflate(R.layout.fragment_page3, container, false)
         viewModel= ViewModelProvider(requireActivity()).get(FavCoinModelView::class.java)
 
@@ -101,12 +103,12 @@ class Page3Fragment : Fragment() {
     private fun handleChangePassword() {
         viewOfLayout.changepassbutton.setOnClickListener {
             changepassbutton.startAnimation(AnimationUtils.loadAnimation(this.activity,R.anim.bounce))
-            activityViewModel.user.observe(viewLifecycleOwner, { user ->
+            userviewModel.user.observe(viewLifecycleOwner, { user ->
                 if(user.username==viewOfLayout.usernameedittext.text.toString()){
                     if(viewOfLayout.emailedittext.text.toString()!="")
                     {
-                        val user1=User(user.id,viewOfLayout.emailedittext.text.toString(),user.username,user.uri)
-                        activityViewModel.insertUser(user1)
+                        val user1=User(user.id,viewOfLayout.emailedittext.text.toString(),user.username,user.uri,user.balance,user.noOfTransactions)
+                        userviewModel.insertUser(user1)
                         Toast.makeText(requireContext(),"Password changed",Toast.LENGTH_SHORT).show()
                     }
                     else Toast.makeText(requireContext(),"Password cannot be empty",Toast.LENGTH_SHORT).show()
@@ -142,7 +144,7 @@ class Page3Fragment : Fragment() {
     }
 
     private fun handleProfileImage() {
-        activityViewModel.user.observe(viewLifecycleOwner, { user ->
+        userviewModel.user.observe(viewLifecycleOwner, { user ->
             if(user.uri==""){
                 viewOfLayout.userPhoto.setImageResource(R.drawable.user)
             }
@@ -258,11 +260,9 @@ class Page3Fragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE){
             viewOfLayout.userPhoto.setImageURI(data?.data)
-
-
-            activityViewModel.user.observe(viewLifecycleOwner, { user ->
-                val usertoUpdate=User(user.id,user.password,user.username,data?.data.toString())
-                activityViewModel.insertUser(usertoUpdate)
+            userviewModel.user.observe(viewLifecycleOwner, { user ->
+                val usertoUpdate=User(user.id,user.password,user.username,data?.data.toString(),user.balance,user.noOfTransactions)
+                userviewModel.insertUser(usertoUpdate)
             })
         }
     }

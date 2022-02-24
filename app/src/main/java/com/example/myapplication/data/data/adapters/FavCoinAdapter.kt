@@ -1,6 +1,7 @@
 package com.example.myapplication.data.data.adapters
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,9 +62,22 @@ class FavCoinAdapter() : RecyclerView.Adapter<FavCoinAdapter.ViewHolder>(), Filt
         holder.nume.text=coin.name
 
         holder.img.setOnClickListener {
-            val db= FavCoinDatabase.getDatabase(holder.img.context)
-            val favcoin= Favcoin(coin.id,coin.name,coin.symbol,coin.image,coin.rank)
-            db.favCoinDao().delete(favcoin)
+
+            val builder = AlertDialog.Builder(holder.img.context)
+            builder.setMessage("Are you sure you want to Delete?")
+                .setCancelable(false)
+                .setPositiveButton("Yes") { dialog, id ->
+                    val db= FavCoinDatabase.getDatabase(holder.img.context)
+                    val favcoin= Favcoin(coin.id,coin.name,coin.symbol,coin.image,coin.rank)
+                    db.favCoinDao().delete(favcoin)
+                }
+                .setNegativeButton("No") { dialog, id ->
+                    // Dismiss the dialog
+                    dialog.dismiss()
+                }
+            val alert = builder.create()
+            alert.show()
+
         }
 
     }

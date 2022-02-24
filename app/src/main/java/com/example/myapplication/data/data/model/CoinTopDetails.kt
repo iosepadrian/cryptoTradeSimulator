@@ -1,5 +1,7 @@
 package com.example.myapplication.data.data.model
 
+import androidx.room.ColumnInfo
+import com.example.myapplication.data.data.model.buy.MarketData
 import com.google.gson.annotations.SerializedName
 
 class CoinTopDetails (
@@ -12,7 +14,7 @@ class CoinTopDetails (
     @SerializedName("links") val links : Links,
     @SerializedName("coingecko_rank") val coingecko_rank : String,
     @SerializedName("market_cap_rank") val market_cap_rank : String,
-
+    @SerializedName("market_data") val marketData: MarketData
 
 ) {
     override fun toString(): String {

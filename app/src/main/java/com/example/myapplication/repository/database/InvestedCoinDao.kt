@@ -1,7 +1,6 @@
 package com.example.myapplication.repository.database
 
 import androidx.room.*
-import com.example.myapplication.data.data.model.Favcoin
 import com.example.myapplication.data.data.model.InvestedCoin
 import kotlinx.coroutines.flow.Flow
 

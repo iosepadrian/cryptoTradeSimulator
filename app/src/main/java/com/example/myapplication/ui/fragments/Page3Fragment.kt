@@ -3,6 +3,7 @@ package com.example.myapplication.ui.fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -103,27 +104,37 @@ class Page3Fragment : Fragment() {
     private fun handleChangePassword() {
         viewOfLayout.changepassbutton.setOnClickListener {
             changepassbutton.startAnimation(AnimationUtils.loadAnimation(this.activity,R.anim.bounce))
-            userviewModel.user.observe(viewLifecycleOwner, { user ->
-                if(user.username==viewOfLayout.usernameedittext.text.toString()){
-                    if(viewOfLayout.emailedittext.text.toString()!="")
-                    {
-                        val user1=User(user.id,viewOfLayout.emailedittext.text.toString(),user.username,user.uri,user.balance,user.noOfTransactions)
+            userviewModel.user.observe(viewLifecycleOwner) { user ->
+                if (user.username == viewOfLayout.usernameedittext.text.toString()) {
+                    if (viewOfLayout.emailedittext.text.toString() != "") {
+                        val user1 = User(
+                            user.id,
+                            viewOfLayout.emailedittext.text.toString(),
+                            user.username,
+                            user.uri,
+                            user.balance,
+                            user.noOfTransactions
+                        )
                         userviewModel.insertUser(user1)
-                        Toast.makeText(requireContext(),"Password changed",Toast.LENGTH_SHORT).show()
-                    }
-                    else Toast.makeText(requireContext(),"Password cannot be empty",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Password changed", Toast.LENGTH_SHORT)
+                            .show()
+                    } else Toast.makeText(
+                        requireContext(),
+                        "Password cannot be empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(requireContext(), "User doesn't match", Toast.LENGTH_SHORT)
+                        .show()
                 }
-                else{
-                    Toast.makeText(requireContext(),"User doesn't match",Toast.LENGTH_SHORT).show()
-                }
-            })
+            }
 
         }
     }
 
     private fun setFavCoinList(recyclerView: RecyclerView?) {
         adapter= FavCoinAdapter()
-        viewModel.favcoin.observe(viewLifecycleOwner, { details ->
+        viewModel.favcoin.observe(viewLifecycleOwner) { details ->
             recyclerView.also {
                 if (it != null) {
                     it.layoutManager = LinearLayoutManager(requireContext())
@@ -132,7 +143,7 @@ class Page3Fragment : Fragment() {
                     renderPhotosList(details)
                 }
             }
-        })
+        }
         adapter.setOnItemClickListener(object : FavCoinAdapter.onItemClickListener{
             override fun onItemClick(position: Int) {
                 Log.v("AdiTag","Item clicked")
@@ -144,14 +155,13 @@ class Page3Fragment : Fragment() {
     }
 
     private fun handleProfileImage() {
-        userviewModel.user.observe(viewLifecycleOwner, { user ->
-            if(user.uri==""){
+        userviewModel.user.observe(viewLifecycleOwner) { user ->
+            if (user.uri == "") {
                 viewOfLayout.userPhoto.setImageResource(R.drawable.user)
-            }
-            else{
+            } else {
                 viewOfLayout.userPhoto.setImageURI(Uri.parse(user.uri))
             }
-        })
+        }
 
 
         viewOfLayout.uploadimage.setOnClickListener{
@@ -175,8 +185,19 @@ class Page3Fragment : Fragment() {
         }
 
         viewOfLayout.deleteimage.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
 
-            viewOfLayout.userPhoto.setImageResource(R.drawable.user)
+            builder.setMessage("Are you sure you want to Delete?")
+                .setCancelable(false)
+                .setPositiveButton("Yes") { dialog, id ->
+                    viewOfLayout.userPhoto.setImageResource(R.drawable.user)
+                }
+                .setNegativeButton("No") { dialog, id ->
+                    // Dismiss the dialog
+                    dialog.dismiss()
+                }
+            val alert = builder.create()
+            alert.show()
         }
 
     }
@@ -207,7 +228,7 @@ class Page3Fragment : Fragment() {
 
     private fun sortCoinsByName(recyclerView: RecyclerView) {
         adapter= FavCoinAdapter()
-        viewModel.favcoin.observe(viewLifecycleOwner, { coins ->
+        viewModel.favcoin.observe(viewLifecycleOwner) { coins ->
             recyclerView.also { it ->
                 it.layoutManager = LinearLayoutManager(requireContext())
                 it.setHasFixedSize(true)
@@ -215,7 +236,7 @@ class Page3Fragment : Fragment() {
                 renderPhotosList(coins.sortedBy { it.name })
 
             }
-        })
+        }
         adapter.setOnItemClickListener(object : FavCoinAdapter.onItemClickListener{
             override fun onItemClick(position: Int) {
                 Log.v("AdiTag","Item clicked")
@@ -234,14 +255,14 @@ class Page3Fragment : Fragment() {
 
     private fun sortbyDescendingName(recyclerView: RecyclerView) {
         adapter= FavCoinAdapter()
-        viewModel.favcoin.observe(viewLifecycleOwner, { coins ->
+        viewModel.favcoin.observe(viewLifecycleOwner) { coins ->
             recyclerView.also {
                 it.layoutManager = LinearLayoutManager(requireContext())
                 it.setHasFixedSize(true)
                 it.adapter = adapter
                 renderPhotosList(coins.sortedByDescending { it.name })
             }
-        })
+        }
         adapter.setOnItemClickListener(object : FavCoinAdapter.onItemClickListener{
             override fun onItemClick(position: Int) {
                 Log.v("AdiTag","Item clicked")
@@ -260,16 +281,23 @@ class Page3Fragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE){
             viewOfLayout.userPhoto.setImageURI(data?.data)
-            userviewModel.user.observe(viewLifecycleOwner, { user ->
-                val usertoUpdate=User(user.id,user.password,user.username,data?.data.toString(),user.balance,user.noOfTransactions)
+            userviewModel.user.observe(viewLifecycleOwner) { user ->
+                val usertoUpdate = User(
+                    user.id,
+                    user.password,
+                    user.username,
+                    data?.data.toString(),
+                    user.balance,
+                    user.noOfTransactions
+                )
                 userviewModel.insertUser(usertoUpdate)
-            })
+            }
         }
     }
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode){
             PERMISSION_CODE -> {
-                if (grantResults.size >0 && grantResults[0] ==
+                if (grantResults.isNotEmpty() && grantResults[0] ==
                     PackageManager.PERMISSION_GRANTED){
                     //permission from popup granted
                     pickImageFromGallery()

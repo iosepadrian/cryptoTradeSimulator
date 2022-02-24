@@ -119,95 +119,89 @@ class Page4Fragment : Fragment() {
     private fun createDummyData() {
 
 
-        viewModel.coins.observe(viewLifecycleOwner, { coins ->
-            var ex1= ArrayList<SubCategory>()
-            var ex2= ArrayList<SubCategory>()
-            var ex3= ArrayList<SubCategory>()
-            var ex4= ArrayList<SubCategory>()
-            var ex5= ArrayList<SubCategory>()
-            var categoryList= ArrayList<Category>()
+        viewModel.coins.observe(viewLifecycleOwner) { coins ->
+            var ex1 = ArrayList<SubCategory>()
+            var ex2 = ArrayList<SubCategory>()
+            var ex3 = ArrayList<SubCategory>()
+            var ex4 = ArrayList<SubCategory>()
+            var ex5 = ArrayList<SubCategory>()
+            var categoryList = ArrayList<Category>()
             categoryList.clear()
             ex1.clear()
             ex2.clear()
             ex3.clear()
             ex4.clear()
             ex5.clear()
-                for (coin in coins)
-                {
-                    if (coin.current_price<1) {
-                        ex1.add(
+            for (coin in coins) {
+                if (coin.current_price < 1) {
+                    ex1.add(
+                        SubCategory(
+                            coin.name,
+                            String.format("%.10f", coin.current_price),
+                            coin.current_price,
+                            coin.image
+                        )
+                    )
+                } else {
+                    if (coin.current_price < 10) {
+                        ex2.add(
                             SubCategory(
                                 coin.name,
-                                String.format("%.10f",coin.current_price),
+                                String.format("%.10f", coin.current_price),
                                 coin.current_price,
                                 coin.image
                             )
                         )
-                    }
-                    else {
-                        if (coin.current_price < 10){
-                            ex2.add(
+                    } else {
+                        if (coin.current_price < 100) {
+                            ex3.add(
                                 SubCategory(
                                     coin.name,
-                                    String.format("%.10f",coin.current_price),
+                                    String.format("%.10f", coin.current_price),
                                     coin.current_price,
                                     coin.image
                                 )
                             )
-                        }
-                        else{
-                            if (coin.current_price < 100){
-                                ex3.add(
+                        } else {
+                            if (coin.current_price < 1000) {
+                                ex4.add(
                                     SubCategory(
                                         coin.name,
-                                        String.format("%.10f",coin.current_price),
+                                        String.format("%.10f", coin.current_price),
                                         coin.current_price,
                                         coin.image
                                     )
                                 )
-                            }
-                            else
-                            {
-                                if (coin.current_price < 1000){
-                                    ex4.add(
+                            } else {
+                                if (coin.current_price < 100000) {
+                                    ex5.add(
                                         SubCategory(
                                             coin.name,
-                                            String.format("%.10f",coin.current_price),
+                                            String.format("%.10f", coin.current_price),
                                             coin.current_price,
                                             coin.image
                                         )
                                     )
                                 }
-                                else{
-                                    if (coin.current_price < 100000){
-                                        ex5.add(
-                                            SubCategory(
-                                                coin.name,
-                                                String.format("%.10f",coin.current_price),
-                                                coin.current_price,
-                                                coin.image
-                                            )
-                                        )
-                                    }
-                                }
-
                             }
-                        }
 
+                        }
                     }
 
                 }
 
-            categoryList.add(Category(1, "0$-1$",ex1.sortedByDescending { it.price }))
-            categoryList.add(Category(2,"1$-10$",ex2.sortedByDescending { it.price}))
-            categoryList.add(Category(3, "10$-100$",ex3.sortedByDescending { it.price }))
-            categoryList.add(Category(4, "100$-1000$",ex4.sortedByDescending { it.price }))
-            categoryList.add(Category(5, "1000$-100000$",ex5.sortedByDescending { it.price }))
+            }
+
+            categoryList.add(Category(1, "0$-1$", ex1.sortedByDescending { it.price }))
+            categoryList.add(Category(2, "1$-10$", ex2.sortedByDescending { it.price }))
+            categoryList.add(Category(3, "10$-100$", ex3.sortedByDescending { it.price }))
+            categoryList.add(Category(4, "100$-1000$", ex4.sortedByDescending { it.price }))
+            categoryList.add(Category(5, "1000$-100000$", ex5.sortedByDescending { it.price }))
 
             initRecycler(categoryList)
             initTabLayout(categoryList)
             initMediator(categoryList)
-        })
+        }
     }
 
 

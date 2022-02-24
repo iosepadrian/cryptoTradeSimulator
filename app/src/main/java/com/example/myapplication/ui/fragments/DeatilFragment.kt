@@ -5,14 +5,17 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -34,6 +37,7 @@ import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_deatil.view.*
+import kotlinx.android.synthetic.main.fragment_deatil.view.buyButton
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -59,6 +63,12 @@ class DeatilFragment : Fragment() {
     private lateinit var barLineList:ArrayList<BarEntry>
     private lateinit var progressbar:ProgressBar
 
+    var navc: NavController?=null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navc= Navigation.findNavController(view)
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n", "NotifyDataSetChanged", "ResourceAsColor")
     override fun onCreateView(
@@ -76,26 +86,7 @@ class DeatilFragment : Fragment() {
         }*/
         progressbar=viewOfLayout.coinDetailProgressBar
         progressbar.visibility=View.VISIBLE
-        /*Handler().postDelayed({
-            progressbar.visibility=View.INVISIBLE
-            viewOfLayout.coinRank.visibility=View.VISIBLE
-            viewOfLayout.coinimage.visibility=View.VISIBLE
-            viewOfLayout.headerId.visibility=View.VISIBLE
-            viewOfLayout.favouriteImage.visibility=View.VISIBLE
-            viewOfLayout.divider1.visibility=View.VISIBLE
-            viewOfLayout.divider2.visibility=View.VISIBLE
-            viewOfLayout.aboutValue.visibility=View.VISIBLE
-            viewOfLayout.aboutTextView.visibility=View.VISIBLE
-            viewOfLayout.websiteValue.visibility=View.VISIBLE
-            viewOfLayout.websiteTextValue.visibility=View.VISIBLE
-            viewOfLayout.categoriesTextView.visibility=View.VISIBLE
-            viewOfLayout.categoriesChipGroup.visibility=View.VISIBLE
-            viewOfLayout.pricesTextView.visibility=View.VISIBLE
-            viewOfLayout.linechart.visibility=View.VISIBLE
-            viewOfLayout.buttonsconstraint.visibility=View.VISIBLE
-            viewOfLayout.changechartbutton.visibility=View.VISIBLE
-            viewOfLayout.layout.visibility=View.VISIBLE
-        },2000)*/
+
 
         val id= arguments?.getString("id")
         val api=ApiService()
@@ -122,8 +113,54 @@ class DeatilFragment : Fragment() {
         setChipGroups()
         handleChart()
         handleChangeButton()
+        handleBuyButton()
+        handleSellButton()
 
         return viewOfLayout
+    }
+
+    private fun handleBuyButton() {
+        val buyButton=viewOfLayout.buyButton
+        viewModel.topDetails.observe(viewLifecycleOwner) { topDetails ->
+            buyButton.setOnClickListener {
+                buyButton.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        requireContext(),
+                        R.anim.bounce
+                    )
+                )
+                Log.v("AdiTag", "Buy clicked")
+                val bundle = Bundle()
+                bundle.putString("id", topDetails.id)
+                bundle.putString("name", topDetails.name)
+                bundle.putString("symbol", topDetails.symbol)
+                bundle.putDouble("current_price", topDetails.marketData.current_price.usd)
+                navc?.navigate(R.id.action_detailFragment_to_buyFragment, bundle)
+            }
+        }
+
+    }
+
+    private fun handleSellButton() {
+        val sellButtom=viewOfLayout.sellButton
+        viewModel.topDetails.observe(viewLifecycleOwner) { topDetails ->
+            sellButtom.setOnClickListener {
+                sellButtom.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        requireContext(),
+                        R.anim.bounce
+                    )
+                )
+                Log.v("AdiTag", "Sell clicked")
+                val bundle = Bundle()
+                bundle.putString("id", topDetails.id)
+                bundle.putString("name", topDetails.name)
+                bundle.putString("symbol", topDetails.symbol)
+                bundle.putDouble("current_price", topDetails.marketData.current_price.usd)
+                navc?.navigate(R.id.action_detailFragment_to_sellFragment, bundle)
+            }
+        }
+
     }
 
     private fun handleChangeButton() {
@@ -150,18 +187,18 @@ class DeatilFragment : Fragment() {
 
     private fun setBarChartForOneDay(){
         barLineList= ArrayList()
-        viewModel.one.observe(viewLifecycleOwner, { details ->
-            var   i=-1
-            for(price in details.prices){
+        viewModel.one.observe(viewLifecycleOwner) { details ->
+            var i = -1
+            for (price in details.prices) {
                 i += 1
                 barLineList.add(BarEntry(i.toFloat(), price[1].take(6).toFloat()))
             }
-            val barDataSet=BarDataSet(barLineList,"Dataset")
-            val barData=BarData()
+            val barDataSet = BarDataSet(barLineList, "Dataset")
+            val barData = BarData()
             barData.addDataSet(barDataSet)
-            barChart.data=barData
+            barChart.data = barData
             barChart.invalidate()
-            barDataSet.valueTextSize=0f
+            barDataSet.valueTextSize = 0f
             barChart.axisLeft.setDrawGridLines(false)
             val xAxis: XAxis = barChart.xAxis
             xAxis.setDrawGridLines(false)
@@ -179,23 +216,23 @@ class DeatilFragment : Fragment() {
             xAxis.setDrawLabels(true)
             xAxis.granularity = 1f
             xAxis.labelRotationAngle = +90f
-        })
+        }
         setRecyclerViewForOneDay(recyclerView)
     }
     private fun setBarChartForSevenDays(){
         barLineList= ArrayList()
-        viewModel.details.observe(viewLifecycleOwner, { details ->
-            var   i=-1
-            for(price in details.prices){
+        viewModel.details.observe(viewLifecycleOwner) { details ->
+            var i = -1
+            for (price in details.prices) {
                 i += 1
                 barLineList.add(BarEntry(i.toFloat(), price[1].take(6).toFloat()))
             }
-            val barDataSet=BarDataSet(barLineList,"Dataset")
-            val barData=BarData()
+            val barDataSet = BarDataSet(barLineList, "Dataset")
+            val barData = BarData()
             barData.addDataSet(barDataSet)
-            barChart.data=barData
+            barChart.data = barData
             barChart.invalidate()
-            barDataSet.valueTextSize=0f
+            barDataSet.valueTextSize = 0f
             barChart.axisLeft.setDrawGridLines(false)
             val xAxis: XAxis = barChart.xAxis
             xAxis.setDrawGridLines(false)
@@ -213,23 +250,23 @@ class DeatilFragment : Fragment() {
             xAxis.setDrawLabels(true)
             xAxis.granularity = 1f
             xAxis.labelRotationAngle = +90f
-        })
+        }
         setRecyclerViewFor7Days(recyclerView)
     }
     private fun setBarChartForTwoDays(){
         barLineList= ArrayList()
-        viewModel.two.observe(viewLifecycleOwner, { details ->
-            var   i=-1
-            for(price in details.prices){
+        viewModel.two.observe(viewLifecycleOwner) { details ->
+            var i = -1
+            for (price in details.prices) {
                 i += 1
                 barLineList.add(BarEntry(i.toFloat(), price[1].take(6).toFloat()))
             }
-            val barDataSet=BarDataSet(barLineList,"Dataset")
-            val barData=BarData()
+            val barDataSet = BarDataSet(barLineList, "Dataset")
+            val barData = BarData()
             barData.addDataSet(barDataSet)
-            barChart.data=barData
+            barChart.data = barData
             barChart.invalidate()
-            barDataSet.valueTextSize=0f
+            barDataSet.valueTextSize = 0f
             barChart.axisLeft.setDrawGridLines(false)
             val xAxis: XAxis = barChart.xAxis
             xAxis.setDrawGridLines(false)
@@ -247,7 +284,7 @@ class DeatilFragment : Fragment() {
             xAxis.setDrawLabels(true)
             xAxis.granularity = 1f
             xAxis.labelRotationAngle = +90f
-        })
+        }
         setRecyclerViewForTwoDays(recyclerView)
     }
 
@@ -316,108 +353,108 @@ class DeatilFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setLineChartForSevenDays() {
         lineList= ArrayList()
-        viewModel.details.observe(viewLifecycleOwner, { details ->
-            var   i=-1
-            for(price in details.prices){
+        viewModel.details.observe(viewLifecycleOwner) { details ->
+            var i = -1
+            for (price in details.prices) {
                 i += 1
                 lineList.add(Entry(i.toFloat(), price[1].take(6).toFloat()))
 
             }
-            lineDataSet= LineDataSet(lineList,"")
-            lineData= LineData(lineDataSet)
-            lineChart.data=lineData
+            lineDataSet = LineDataSet(lineList, "")
+            lineData = LineData(lineDataSet)
+            lineChart.data = lineData
             lineDataSet.setDrawFilled(true)
-            lineDataSet.valueTextSize=0f
-        })
+            lineDataSet.valueTextSize = 0f
+        }
 
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setLineChart2ForSevenDays() {
         lineList2= ArrayList()
-        viewModel.details.observe(viewLifecycleOwner, { details ->
-            var   i=-1
-            for(price in details.prices){
+        viewModel.details.observe(viewLifecycleOwner) { details ->
+            var i = -1
+            for (price in details.prices) {
                 i += 1
                 lineList2.add(Entry(i.toFloat(), price[1].take(6).toFloat()))
 
             }
-            lineDataSet2= LineDataSet(lineList2,"")
-            lineData2= LineData(lineDataSet2)
-            lineChart2.data=lineData2
-            lineDataSet2.valueTextSize=0f
+            lineDataSet2 = LineDataSet(lineList2, "")
+            lineData2 = LineData(lineDataSet2)
+            lineChart2.data = lineData2
+            lineDataSet2.valueTextSize = 0f
             lineDataSet2.setDrawCircles(false)
-        })
+        }
 
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setLineChartForTwoDays() {
         lineList= ArrayList()
-        viewModel.two.observe(viewLifecycleOwner, { details ->
-            var   i=-1
-            for(price in details.prices){
+        viewModel.two.observe(viewLifecycleOwner) { details ->
+            var i = -1
+            for (price in details.prices) {
                 i += 1
                 lineList.add(Entry(i.toFloat(), price[1].take(6).toFloat()))
 
             }
-            lineDataSet= LineDataSet(lineList,"")
-            lineData= LineData(lineDataSet)
-            lineChart.data=lineData
+            lineDataSet = LineDataSet(lineList, "")
+            lineData = LineData(lineDataSet)
+            lineChart.data = lineData
             lineDataSet.setDrawFilled(true)
-            lineDataSet.valueTextSize=0f
-        })
+            lineDataSet.valueTextSize = 0f
+        }
 
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setLineChart2ForTwoDays() {
         lineList2= ArrayList()
-        viewModel.two.observe(viewLifecycleOwner, { details ->
-            var   i=-1
-            for(price in details.prices){
+        viewModel.two.observe(viewLifecycleOwner) { details ->
+            var i = -1
+            for (price in details.prices) {
                 i += 1
                 lineList2.add(Entry(i.toFloat(), price[1].take(6).toFloat()))
 
             }
-            lineDataSet2= LineDataSet(lineList2,"")
-            lineData2= LineData(lineDataSet2)
-            lineChart2.data=lineData2
-            lineDataSet2.valueTextSize=0f
+            lineDataSet2 = LineDataSet(lineList2, "")
+            lineData2 = LineData(lineDataSet2)
+            lineChart2.data = lineData2
+            lineDataSet2.valueTextSize = 0f
             lineDataSet2.setDrawCircles(false)
-        })
+        }
 
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setLineChartForOneDay() {
         lineList= ArrayList()
-        viewModel.one.observe(viewLifecycleOwner, { details ->
-            var   i=-1
-            for(price in details.prices){
+        viewModel.one.observe(viewLifecycleOwner) { details ->
+            var i = -1
+            for (price in details.prices) {
                 i += 1
                 lineList.add(Entry(i.toFloat(), price[1].take(6).toFloat()))
 
             }
-            lineDataSet= LineDataSet(lineList,"")
-            lineData= LineData(lineDataSet)
-            lineChart.data=lineData
+            lineDataSet = LineDataSet(lineList, "")
+            lineData = LineData(lineDataSet)
+            lineChart.data = lineData
             lineDataSet.setDrawFilled(true)
-            lineDataSet.valueTextSize=0f
-        })
+            lineDataSet.valueTextSize = 0f
+        }
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setLineChar2tForOneDay() {
         lineList2= ArrayList()
-        viewModel.one.observe(viewLifecycleOwner, { details ->
-            var   i=-1
-            for(price in details.prices){
+        viewModel.one.observe(viewLifecycleOwner) { details ->
+            var i = -1
+            for (price in details.prices) {
                 i += 1
                 lineList2.add(Entry(i.toFloat(), price[1].take(6).toFloat()))
 
             }
-            lineDataSet2= LineDataSet(lineList2,"")
-            lineData2= LineData(lineDataSet2)
-            lineChart2.data=lineData2
-            lineDataSet2.valueTextSize=0f
+            lineDataSet2 = LineDataSet(lineList2, "")
+            lineData2 = LineData(lineDataSet2)
+            lineChart2.data = lineData2
+            lineDataSet2.valueTextSize = 0f
             lineDataSet2.setDrawCircles(false)
-        })
+        }
     }
 
 
@@ -546,16 +583,16 @@ class DeatilFragment : Fragment() {
             var str=""
 
 
-            viewModel.details.observe(viewLifecycleOwner,{details->
+            viewModel.details.observe(viewLifecycleOwner) { details ->
 
-                if(value.toInt()<details.prices.size) {
+                if (value.toInt() < details.prices.size) {
                     val date = LocalDateTime.ofInstant(
                         Instant.ofEpochMilli(details.prices[value.toInt()][0].toLong()),
                         ZoneId.systemDefault()
                     )
                     str = date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
                 }
-            })
+            }
             return str
         }
 
@@ -567,16 +604,16 @@ class DeatilFragment : Fragment() {
             var str=""
 
 
-            viewModel.two.observe(viewLifecycleOwner,{details->
+            viewModel.two.observe(viewLifecycleOwner) { details ->
 
-                if(value.toInt()<details.prices.size) {
+                if (value.toInt() < details.prices.size) {
                     val date = LocalDateTime.ofInstant(
                         Instant.ofEpochMilli(details.prices[value.toInt()][0].toLong()),
                         ZoneId.systemDefault()
                     )
                     str = date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
                 }
-            })
+            }
             return str
         }
 
@@ -587,16 +624,16 @@ class DeatilFragment : Fragment() {
         @RequiresApi(Build.VERSION_CODES.O)
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
             var str=""
-            viewModel.one.observe(viewLifecycleOwner,{details->
+            viewModel.one.observe(viewLifecycleOwner) { details ->
 
-                if(value.toInt()<details.prices.size) {
+                if (value.toInt() < details.prices.size) {
                     val date = LocalDateTime.ofInstant(
                         Instant.ofEpochMilli(details.prices[value.toInt()][0].toLong()),
                         ZoneId.systemDefault()
                     )
                     str = date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM))
                 }
-            })
+            }
             return str
         }
 
@@ -605,87 +642,88 @@ class DeatilFragment : Fragment() {
     @SuppressLint("ResourceAsColor", "SetTextI18n")
     private fun setChipGroups() {
         val chipGroup=viewOfLayout.categoriesChipGroup
-        viewModel.topDetails.observe(viewLifecycleOwner, { topDetails->
-            viewOfLayout.coinRank.text="#"+ topDetails.coingecko_rank
-            viewOfLayout.headerId.text=topDetails.name
-            Glide.with(viewOfLayout.coinimage.context).load(topDetails.image.small).into(viewOfLayout.coinimage)
-            if(topDetails.description.en==""){
-                viewOfLayout.aboutValue.text="There is nothing written about this site"
-            }
-            else {
+        viewModel.topDetails.observe(viewLifecycleOwner) { topDetails ->
+            viewOfLayout.coinRank.text = "#" + topDetails.coingecko_rank
+            viewOfLayout.headerId.text = topDetails.name
+            Glide.with(viewOfLayout.coinimage.context).load(topDetails.image.small)
+                .into(viewOfLayout.coinimage)
+            if (topDetails.description.en == "") {
+                viewOfLayout.aboutValue.text = "There is nothing written about this site"
+            } else {
                 viewOfLayout.aboutValue.text = topDetails.description.en
             }
-            for(string in topDetails.categories){
+            for (string in topDetails.categories) {
                 val chip = Chip(activity)
                 chip.text = string
                 chip.setChipBackgroundColorResource(R.color.chip_backgroud)
                 chip.isCloseIconVisible = true
                 chip.setTextColor(R.color.chip_text)
                 chip.setTextAppearance(R.style.ChipTextAppearance)
-                chip.elevation=2F
+                chip.elevation = 2F
 
                 chip.isCloseIconVisible = false
                 chipGroup.addView(chip)
             }
-            viewOfLayout.websiteValue.text= topDetails.links.homepage[0]
-            progressbar.visibility=View.INVISIBLE
-            viewOfLayout.coinRank.visibility=View.VISIBLE
-            viewOfLayout.coinimage.visibility=View.VISIBLE
-            viewOfLayout.headerId.visibility=View.VISIBLE
-            viewOfLayout.favouriteImage.visibility=View.VISIBLE
-            viewOfLayout.divider1.visibility=View.VISIBLE
-            viewOfLayout.divider2.visibility=View.VISIBLE
-            viewOfLayout.aboutValue.visibility=View.VISIBLE
-            viewOfLayout.aboutTextView.visibility=View.VISIBLE
-            viewOfLayout.websiteValue.visibility=View.VISIBLE
-            viewOfLayout.websiteTextValue.visibility=View.VISIBLE
-            viewOfLayout.categoriesTextView.visibility=View.VISIBLE
-            viewOfLayout.categoriesChipGroup.visibility=View.VISIBLE
-            viewOfLayout.pricesTextView.visibility=View.VISIBLE
-            viewOfLayout.linechart.visibility=View.VISIBLE
-            viewOfLayout.buttonsconstraint.visibility=View.VISIBLE
-            viewOfLayout.changechartbutton.visibility=View.VISIBLE
-            viewOfLayout.layout.visibility=View.VISIBLE
-
-        })
+            viewOfLayout.websiteValue.text = topDetails.links.homepage[0]
+            progressbar.visibility = View.INVISIBLE
+            viewOfLayout.coinRank.visibility = View.VISIBLE
+            viewOfLayout.coinimage.visibility = View.VISIBLE
+            viewOfLayout.headerId.visibility = View.VISIBLE
+            viewOfLayout.favouriteImage.visibility = View.VISIBLE
+            viewOfLayout.divider1.visibility = View.VISIBLE
+            viewOfLayout.divider2.visibility = View.VISIBLE
+            viewOfLayout.aboutValue.visibility = View.VISIBLE
+            viewOfLayout.aboutTextView.visibility = View.VISIBLE
+            viewOfLayout.websiteValue.visibility = View.VISIBLE
+            viewOfLayout.websiteTextValue.visibility = View.VISIBLE
+            viewOfLayout.categoriesTextView.visibility = View.VISIBLE
+            viewOfLayout.categoriesChipGroup.visibility = View.VISIBLE
+            viewOfLayout.pricesTextView.visibility = View.VISIBLE
+            viewOfLayout.linechart.visibility = View.VISIBLE
+            viewOfLayout.buttonsconstraint.visibility = View.VISIBLE
+            viewOfLayout.changechartbutton.visibility = View.VISIBLE
+            viewOfLayout.layout.visibility = View.VISIBLE
+            viewOfLayout.buyButton.visibility = View.VISIBLE
+            viewOfLayout.sellButton.visibility = View.VISIBLE
+        }
     }
 
 
     private fun setRecyclerViewFor7Days(recyclerView: RecyclerView?) {
-        viewModel.details.observe(viewLifecycleOwner, { details ->
+        viewModel.details.observe(viewLifecycleOwner) { details ->
             recyclerView.also {
-                val adapter= CoinDetailsAdapter(details)
+                val adapter = CoinDetailsAdapter(details)
                 if (it != null) {
                     it.layoutManager = LinearLayoutManager(requireContext())
                     it.setHasFixedSize(true)
                     it.adapter = adapter
                 }
             }
-        })
+        }
     }
     private fun setRecyclerViewForOneDay(recyclerView: RecyclerView?) {
-        viewModel.one.observe(viewLifecycleOwner, { details ->
+        viewModel.one.observe(viewLifecycleOwner) { details ->
             recyclerView.also {
-                val adapter= CoinDetailsAdapter(details)
+                val adapter = CoinDetailsAdapter(details)
                 if (it != null) {
                     it.layoutManager = LinearLayoutManager(requireContext())
                     it.setHasFixedSize(true)
                     it.adapter = adapter
                 }
             }
-        })
+        }
     }
     private fun setRecyclerViewForTwoDays(recyclerView: RecyclerView?) {
-        viewModel.two.observe(viewLifecycleOwner, { details ->
+        viewModel.two.observe(viewLifecycleOwner) { details ->
             recyclerView.also {
-                val adapter= CoinDetailsAdapter(details)
+                val adapter = CoinDetailsAdapter(details)
                 if (it != null) {
                     it.layoutManager = LinearLayoutManager(requireContext())
                     it.setHasFixedSize(true)
                     it.adapter = adapter
                 }
             }
-        })
+        }
     }
 
 
@@ -693,7 +731,7 @@ class DeatilFragment : Fragment() {
     private fun setSwipeToRefrestData7(recyclerView:RecyclerView){
         swipeRefreshLayout=viewOfLayout.swiperefresh
         swipeRefreshLayout.setOnRefreshListener {
-            viewModel.details.observe(viewLifecycleOwner, { details ->
+            viewModel.details.observe(viewLifecycleOwner) { details ->
                 recyclerView.also {
                     val adapter = CoinDetailsAdapter(details)
                     it.layoutManager = LinearLayoutManager(requireContext())
@@ -701,7 +739,7 @@ class DeatilFragment : Fragment() {
                     it.adapter = adapter
                     adapter.notifyDataSetChanged()
                 }
-            })
+            }
             swipeRefreshLayout.isRefreshing = false
         }
     }
@@ -709,7 +747,7 @@ class DeatilFragment : Fragment() {
     private fun setSwipeToRefrestData2(recyclerView:RecyclerView){
         swipeRefreshLayout=viewOfLayout.swiperefresh
         swipeRefreshLayout.setOnRefreshListener {
-            viewModel.two.observe(viewLifecycleOwner, { details ->
+            viewModel.two.observe(viewLifecycleOwner) { details ->
                 recyclerView.also {
                     val adapter = CoinDetailsAdapter(details)
                     it.layoutManager = LinearLayoutManager(requireContext())
@@ -717,7 +755,7 @@ class DeatilFragment : Fragment() {
                     it.adapter = adapter
                     adapter.notifyDataSetChanged()
                 }
-            })
+            }
             swipeRefreshLayout.isRefreshing = false
         }
     }
@@ -725,7 +763,7 @@ class DeatilFragment : Fragment() {
     private fun setSwipeToRefrestData1(recyclerView:RecyclerView){
         swipeRefreshLayout=viewOfLayout.swiperefresh
         swipeRefreshLayout.setOnRefreshListener {
-            viewModel.one.observe(viewLifecycleOwner, { details ->
+            viewModel.one.observe(viewLifecycleOwner) { details ->
                 recyclerView.also {
                     val adapter = CoinDetailsAdapter(details)
                     it.layoutManager = LinearLayoutManager(requireContext())
@@ -733,7 +771,7 @@ class DeatilFragment : Fragment() {
                     it.adapter = adapter
                     adapter.notifyDataSetChanged()
                 }
-            })
+            }
             swipeRefreshLayout.isRefreshing = false
         }
     }
@@ -767,20 +805,32 @@ class DeatilFragment : Fragment() {
                 favImageView.setImageResource(R.drawable.ic_filledheart)
                 favImageView.tag = R.drawable.ic_filledheart
                 favImageView.setColorFilter(Color.parseColor("#FF0000"))
-                viewModel.topDetails.observe(viewLifecycleOwner, { topDetails ->
-                    val favcoin = Favcoin(id, view.headerId.text.toString(),topDetails.symbol,topDetails.image.small,topDetails.market_cap_rank)
+                viewModel.topDetails.observe(viewLifecycleOwner) { topDetails ->
+                    val favcoin = Favcoin(
+                        id,
+                        view.headerId.text.toString(),
+                        topDetails.symbol,
+                        topDetails.image.small,
+                        topDetails.market_cap_rank
+                    )
                     db.favCoinDao().insert(favcoin)
-                })
+                }
             }
             else
             {
                 favImageView.setImageResource(R.drawable.ic_emplyheart)
                 favImageView.tag = R.drawable.ic_emplyheart
                 favImageView.setColorFilter(Color.parseColor("#444444"))
-                viewModel.topDetails.observe(viewLifecycleOwner, { topDetails ->
-                    val favcoin = Favcoin(id, view.headerId.text.toString(),topDetails.symbol,topDetails.image.small,topDetails.market_cap_rank)
+                viewModel.topDetails.observe(viewLifecycleOwner) { topDetails ->
+                    val favcoin = Favcoin(
+                        id,
+                        view.headerId.text.toString(),
+                        topDetails.symbol,
+                        topDetails.image.small,
+                        topDetails.market_cap_rank
+                    )
                     db.favCoinDao().delete(favcoin)
-                })
+                }
             }
 
         }

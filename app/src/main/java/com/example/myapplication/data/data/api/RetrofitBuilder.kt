@@ -12,5 +12,4 @@ object RetrofitBuilder {
             .addConverterFactory(GsonConverterFactory.create())
             .build() //Doesn't require the adapter
     }
-
 }

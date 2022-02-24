@@ -14,7 +14,9 @@ data class User  (
     @ColumnInfo(name = "balance") val balance:Float?,
     @ColumnInfo(name = "noOfTransactions") val noOfTransactions:Int?
     ) {
+
+
     override fun toString(): String {
-        return "User(id='$id', password=$password, username=$username, balance=$balance)"
+        return "User(id='$id', password=$password, username=$username, uri=$uri, balance=$balance, noOfTransactions=$noOfTransactions)"
     }
 }

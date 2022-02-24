@@ -2,10 +2,7 @@ package com.example.myapplication.repository
 
 import android.app.Application
 import android.util.Log
-import com.example.myapplication.data.data.model.Favcoin
 import com.example.myapplication.data.data.model.InvestedCoin
-import com.example.myapplication.repository.database.FavCoinDao
-import com.example.myapplication.repository.database.FavCoinDatabase
 import com.example.myapplication.repository.database.InvestedCoinDao
 import com.example.myapplication.repository.database.InvestedCoinDatabase
 import kotlinx.coroutines.flow.Flow

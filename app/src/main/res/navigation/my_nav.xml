@@ -47,11 +47,32 @@
         android:id="@+id/deatilFragment"
         android:name="com.example.myapplication.ui.fragments.DeatilFragment"
         android:label="fragment_deatil"
-        tools:layout="@layout/fragment_deatil" />
+        tools:layout="@layout/fragment_deatil">
+    <action
+        android:id="@+id/action_detailFragment_to_buyFragment"
+        app:destination="@id/buyFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_sellFragment"
+            app:destination="@id/sellFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/viewAllFragment"
         android:name="com.example.myapplication.ui.fragments.ViewAllFragment"
         android:label="fragment_viewAll"
         tools:layout="@layout/fragment_view_all"/>
+
+    <fragment
+        android:id="@+id/buyFragment"
+        android:name="com.example.myapplication.ui.fragments.BuyFragment"
+        android:label="fragment_buy"
+        tools:layout="@layout/fragment_buy">
+        </fragment>
+    <fragment
+        android:id="@+id/sellFragment"
+        android:name="com.example.myapplication.ui.fragments.SellFragment"
+        android:label="fragment_sell"
+        tools:layout="@layout/fragment_sell">
+    </fragment>
 
 </navigation>

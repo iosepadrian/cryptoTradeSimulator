@@ -4,31 +4,31 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.myapplication.data.data.model.InvestedCoin
+import com.example.myapplication.data.data.model.Transaction
 
-@Database(entities = [InvestedCoin::class],version = 2)
-abstract class InvestedCoinDatabase: RoomDatabase() {
+@Database(entities = [Transaction::class],version = 2)
+abstract class TransactionDatabase: RoomDatabase() {
 
-    abstract fun investedCoinDao(): InvestedCoinDao
+    abstract fun TransactionDao(): TransactionDao
 
     companion object {
 
-        private var INSTANCE: InvestedCoinDatabase? = null
+        private var INSTANCE: TransactionDatabase? = null
 
-        fun getDatabase(context: Context): InvestedCoinDatabase {
+        fun getDatabase(context: Context): TransactionDatabase {
             if (INSTANCE == null) {
                 synchronized(this) {
                     INSTANCE = Room.databaseBuilder(
                         context.applicationContext,
-                        InvestedCoinDatabase::class.java,
-                        "DatabaseInvested"
+                        TransactionDatabase::class.java,
+                        "DatabaseTran"
                     )
                         .fallbackToDestructiveMigration()
                         .allowMainThreadQueries()
                         .build()
                 }
             }
-            return INSTANCE as InvestedCoinDatabase
+            return INSTANCE as TransactionDatabase
         }
     }
 

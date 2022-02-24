@@ -78,7 +78,7 @@ class BuyFragment : Fragment() {
             viewOfLayout.buyButton.isEnabled = false
             Handler().postDelayed({
                 viewOfLayout.buyButton.setEnabled(true);
-                Log.d("AdiTag","resend1");
+                Log.d("AdiTag","you can buy again");
             }, 4000)
 
             if(fromEditText.text.toString().isNotEmpty()){

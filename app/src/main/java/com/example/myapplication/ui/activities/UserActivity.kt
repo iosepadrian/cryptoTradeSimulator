@@ -8,8 +8,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.myapplication.R
+import com.example.myapplication.data.data.model.InvestedCoin
 import com.example.myapplication.modelView.FavCoinModelView
 import com.example.myapplication.modelView.UserViewModel
+import com.example.myapplication.repository.database.InvestedCoinDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,7 +35,13 @@ class UserActivity : AppCompatActivity() {
         val editor = sharedPreferences.edit()
         editor.putInt("key", 1)
         editor.apply()
-
+        val dbInvested= InvestedCoinDatabase.getDatabase(applicationContext)
+        if(dbInvested.investedCoinDao().load()==null){
+            dbInvested.investedCoinDao().insert(
+                InvestedCoin("USDT","Tether","USDT","https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707",
+                    "3","0", 100000.0)
+            )
+        }
 
         val bottomNavigation=findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val navigationHost =

@@ -36,9 +36,9 @@ class MainActivity : AppCompatActivity() {
         val model=ViewModelProvider(this).get(UserViewModel::class.java)
 
         if(model.loadAllUsers().isNotEmpty()) {
-            model.user.observe(this, {
+            model.user.observe(this) {
                 findViewById<EditText>(R.id.usernameEditText).setText(it.username)
-            })
+            }
         }
         val key: Int
         val prefs = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)

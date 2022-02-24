@@ -64,25 +64,28 @@ class Page1Fragment : Fragment() {
 
         adapter= CoinsListAdapter()
 
-        viewModel.favcoin.observe(viewLifecycleOwner, { details ->
-            Log.v("AdiTag",details.size.toString())
-            if(details.isEmpty())
-            {
-                viewOfLayout.noCoinsTextView.visibility=View.VISIBLE
-            }
-            else{
-                viewOfLayout.noCoinsTextView.visibility=View.INVISIBLE
+        viewModel.favcoin.observe(viewLifecycleOwner) { details ->
+            Log.v("AdiTag", details.size.toString())
+            if (details.isEmpty()) {
+                viewOfLayout.noCoinsTextView.visibility = View.VISIBLE
+            } else {
+                viewOfLayout.noCoinsTextView.visibility = View.INVISIBLE
             }
 
             adapter.submitList(details)
             recyclerView.also {
                 if (it != null) {
-                    it.layoutManager = GridLayoutManager(requireContext(),2,LinearLayoutManager.HORIZONTAL,false)
+                    it.layoutManager = GridLayoutManager(
+                        requireContext(),
+                        2,
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
                     it.setHasFixedSize(true)
                     it.adapter = adapter
                 }
             }
-        })
+        }
         adapter.setOnItemClickListener(object : CoinsListAdapter.onItemClickListener{
             override fun onItemClick(position: Int) {
                 Log.v("AdiTag","Item clicked")

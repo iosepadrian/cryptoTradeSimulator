@@ -134,6 +134,8 @@ class DeatilFragment : Fragment() {
                 bundle.putString("id", topDetails.id)
                 bundle.putString("name", topDetails.name)
                 bundle.putString("symbol", topDetails.symbol)
+                bundle.putString("image", topDetails.image.large)
+                bundle.putString("marketcap_rank", topDetails.market_cap_rank)
                 bundle.putDouble("current_price", topDetails.marketData.current_price.usd)
                 navc?.navigate(R.id.action_detailFragment_to_buyFragment, bundle)
             }

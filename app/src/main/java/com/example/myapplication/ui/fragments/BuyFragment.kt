@@ -1,9 +1,11 @@
 package com.example.myapplication.ui.fragments
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,18 +15,32 @@ import kotlinx.android.synthetic.main.fragment_buy.view.*
 import android.text.Editable
 
 import android.text.TextWatcher
+import android.util.Log
 import android.view.animation.AnimationUtils
+import android.widget.EditText
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModelProvider
+import com.example.myapplication.data.data.model.InvestedCoin
+import com.example.myapplication.data.data.model.Transaction
+import com.example.myapplication.modelView.UserViewModel
+import com.example.myapplication.repository.database.FavCoinDatabase
+import com.example.myapplication.repository.database.InvestedCoinDatabase
+import com.example.myapplication.repository.database.TransactionDatabase
+import com.example.myapplication.ui.activities.MainActivity
 import kotlinx.android.synthetic.main.fragment_buy.view.exchange_rate
 import kotlinx.android.synthetic.main.fragment_buy.view.fromValue
 import kotlinx.android.synthetic.main.fragment_buy.view.toName
 import kotlinx.android.synthetic.main.fragment_buy.view.toValue
 import kotlinx.android.synthetic.main.fragment_sell.view.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class BuyFragment : Fragment() {
     private lateinit var viewOfLayout: View
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,15 +51,91 @@ class BuyFragment : Fragment() {
         val id= arguments?.getString("id")
         val current_price= arguments?.getDouble("current_price")
         val symbol= arguments?.getString("symbol")
+        val image= arguments?.getString("image")
+        val name= arguments?.getString("name")
+        val marketcap_rank= arguments?.getString("marketcap_rank")
         if (symbol != null) {
             viewOfLayout.toName.text=symbol.toUpperCase()
             viewOfLayout.exchange_rate.text="1 "+symbol.toUpperCase()+" = "+current_price.toString()+" USDT"
         }
+
+
+        val dbInvested= InvestedCoinDatabase.getDatabase(this.requireContext())
+        val dbTransaction= TransactionDatabase.getDatabase(this.requireContext())
+        for(t:Transaction in dbTransaction.TransactionDao().loadAllNoSync()){
+            Log.v("AdiTag",t.toString())
+        }
+        for(i:InvestedCoin in dbInvested.investedCoinDao().loadAllNoSync()){
+            Log.v("AdiTag",i.toString())
+        }
+
+        val fromEditText= viewOfLayout.fromValue
+        val toEditText= viewOfLayout.toValue
         viewOfLayout.buyButton.setOnClickListener {
             viewOfLayout.buyButton.startAnimation(AnimationUtils.loadAnimation(requireContext(),R.anim.bounce))
+
+
+            viewOfLayout.buyButton.isEnabled = false
+            Handler().postDelayed({
+                viewOfLayout.buyButton.setEnabled(true);
+                Log.d("AdiTag","resend1");
+            }, 4000)
+
+            if(fromEditText.text.toString().isNotEmpty()){
+                val now = LocalDateTime.now()
+                val formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd HH:mm:ss.SSS")
+                val formatted = now.format(formatter)
+                val dbTransaction= TransactionDatabase.getDatabase(this.requireContext())
+                if(dbTransaction.TransactionDao().load()!=null){
+                val transaction=Transaction(dbTransaction.TransactionDao().load().id+1,"0", id!!,formatted,"USDC", symbol!!,
+                    fromEditText.text.toString().toDouble(),toEditText.text.toString().toDouble())
+                    dbTransaction.TransactionDao().insert(transaction)
+                }
+                else{
+                    val transaction=Transaction(0,"0", id!!,formatted,"USDT", symbol!!,
+                        fromEditText.text.toString().toDouble(),toEditText.text.toString().toDouble())
+                    dbTransaction.TransactionDao().insert(transaction)
+                }
+
+                val dbInvested= InvestedCoinDatabase.getDatabase(this.requireContext())
+                var ok=1
+                for(invested:InvestedCoin in dbInvested.investedCoinDao().loadAllNoSync()){
+                    if(invested.id_user=="0" && invested.symbol=="USDT"){
+                        val investedToUpdate = InvestedCoin(
+                            invested.symbol, invested.name, invested.symbol,
+                            invested.image, invested.rank, invested.id_user,
+                            invested.invested_amount - fromEditText.text.toString().toDouble()
+                        )
+                        dbInvested.investedCoinDao().insert(investedToUpdate)
+                    }
+                    if (invested.id_user == "0" && invested.symbol==symbol) {
+                        ok = 0
+                        val investedToUpdate = InvestedCoin(
+                            invested.symbol, invested.name, invested.symbol,
+                            invested.image, invested.rank, invested.id_user,
+                            invested.invested_amount + toEditText.text.toString().toDouble()
+                        )
+                        dbInvested.investedCoinDao().insert(investedToUpdate)
+                    }
+                }
+                if(ok==1){
+                        val investedToAdd = InvestedCoin(
+                            symbol,
+                            name!!,
+                            symbol,
+                            image!!,
+                            marketcap_rank!!,
+                            "0",
+                            toEditText.text.toString().toDouble()
+                        )
+
+                        dbInvested.investedCoinDao().insert(investedToAdd)
+                }
+            }
+
         }
-        val et1= viewOfLayout.fromValue
-        et1.addTextChangedListener(object : TextWatcher {
+
+        fromEditText.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(
                 s: CharSequence, start: Int, before: Int,
                 count: Int

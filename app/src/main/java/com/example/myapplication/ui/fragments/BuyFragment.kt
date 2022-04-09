@@ -18,6 +18,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.animation.AnimationUtils
 import android.widget.EditText
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.data.data.model.InvestedCoin
@@ -48,88 +49,158 @@ class BuyFragment : Fragment() {
         // Inflate the layout for this fragment
         viewOfLayout = inflater.inflate(R.layout.fragment_buy, container, false)
 
-        val id= arguments?.getString("id")
-        val current_price= arguments?.getDouble("current_price")
-        val symbol= arguments?.getString("symbol")
-        val image= arguments?.getString("image")
-        val name= arguments?.getString("name")
-        val marketcap_rank= arguments?.getString("marketcap_rank")
+        val id = arguments?.getString("id")
+        val current_price = arguments?.getDouble("current_price")
+        val symbol = arguments?.getString("symbol")
+        val image = arguments?.getString("image")
+        val name = arguments?.getString("name")
+        val marketcap_rank = arguments?.getString("marketcap_rank")
         if (symbol != null) {
-            viewOfLayout.toName.text=symbol.toUpperCase()
-            viewOfLayout.exchange_rate.text="1 "+symbol.toUpperCase()+" = "+current_price.toString()+" USDT"
+            viewOfLayout.toName.text = symbol.toUpperCase()
+            viewOfLayout.exchange_rate.text =
+                "1 " + symbol.toUpperCase() + " = " + current_price.toString() + " USDT"
         }
 
 
-        val dbInvested= InvestedCoinDatabase.getDatabase(this.requireContext())
-        val dbTransaction= TransactionDatabase.getDatabase(this.requireContext())
-        for(t:Transaction in dbTransaction.TransactionDao().loadAllNoSync()){
-            Log.v("AdiTag",t.toString())
+        val dbInvested = InvestedCoinDatabase.getDatabase(this.requireContext())
+        val dbTransaction = TransactionDatabase.getDatabase(this.requireContext())
+        for (t: Transaction in dbTransaction.TransactionDao().loadAllNoSync()) {
+            Log.v("AdiTag", t.toString())
         }
-        for(i:InvestedCoin in dbInvested.investedCoinDao().loadAllNoSync()){
-            Log.v("AdiTag",i.toString())
+        for (i: InvestedCoin in dbInvested.investedCoinDao().loadAllNoSync()) {
+            Log.v("AdiTag", i.toString())
         }
 
-        val fromEditText= viewOfLayout.fromValue
-        val toEditText= viewOfLayout.toValue
+        val fromEditText = viewOfLayout.fromValue
+        val toEditText = viewOfLayout.toValue
         viewOfLayout.buyButton.setOnClickListener {
-            viewOfLayout.buyButton.startAnimation(AnimationUtils.loadAnimation(requireContext(),R.anim.bounce))
-
-
+            viewOfLayout.buyButton.startAnimation(
+                AnimationUtils.loadAnimation(
+                    requireContext(),
+                    R.anim.bounce
+                )
+            )
             viewOfLayout.buyButton.isEnabled = false
             Handler().postDelayed({
                 viewOfLayout.buyButton.setEnabled(true);
-                Log.d("AdiTag","you can buy again");
+                Log.d("AdiTag", "you can buy again");
             }, 4000)
-
-            if(fromEditText.text.toString().isNotEmpty()){
+            val dbInvested = InvestedCoinDatabase.getDatabase(this.requireContext())
+            if (fromEditText.text.toString().isNotEmpty()) {
                 val now = LocalDateTime.now()
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd HH:mm:ss.SSS")
                 val formatted = now.format(formatter)
-                val dbTransaction= TransactionDatabase.getDatabase(this.requireContext())
-                if(dbTransaction.TransactionDao().load()!=null){
-                val transaction=Transaction(dbTransaction.TransactionDao().load().id+1,"0", id!!,formatted,"USDC", symbol!!,
-                    fromEditText.text.toString().toDouble(),toEditText.text.toString().toDouble())
-                    dbTransaction.TransactionDao().insert(transaction)
-                }
-                else{
-                    val transaction=Transaction(0,"0", id!!,formatted,"USDT", symbol!!,
-                        fromEditText.text.toString().toDouble(),toEditText.text.toString().toDouble())
-                    dbTransaction.TransactionDao().insert(transaction)
-                }
-
-                val dbInvested= InvestedCoinDatabase.getDatabase(this.requireContext())
-                var ok=1
-                for(invested:InvestedCoin in dbInvested.investedCoinDao().loadAllNoSync()){
-                    if(invested.id_user=="0" && invested.symbol=="USDT"){
-                        val investedToUpdate = InvestedCoin(
-                            invested.symbol, invested.name, invested.symbol,
-                            invested.image, invested.rank, invested.id_user,
-                            invested.invested_amount - fromEditText.text.toString().toDouble()
-                        )
-                        dbInvested.investedCoinDao().insert(investedToUpdate)
+                val dbTransaction = TransactionDatabase.getDatabase(this.requireContext())
+                var balance=0.0
+                if (dbTransaction.TransactionDao().load() != null && dbInvested.investedCoinDao().load()!=null) {
+                    for (invested: InvestedCoin in dbInvested.investedCoinDao().loadAllNoSync()) {
+                        if (invested.id_user == "0" && invested.symbol == "USDT") {
+                            balance=invested.invested_amount
+                        }
                     }
-                    if (invested.id_user == "0" && invested.symbol==symbol) {
-                        ok = 0
-                        val investedToUpdate = InvestedCoin(
-                            invested.symbol, invested.name, invested.symbol,
-                            invested.image, invested.rank, invested.id_user,
-                            invested.invested_amount + toEditText.text.toString().toDouble()
-                        )
-                        dbInvested.investedCoinDao().insert(investedToUpdate)
-                    }
-                }
-                if(ok==1){
-                        val investedToAdd = InvestedCoin(
-                            symbol,
-                            name!!,
-                            symbol,
-                            image!!,
-                            marketcap_rank!!,
+                    if(fromEditText.text.toString().toDouble()<=balance) {
+                        val transaction = Transaction(
+                            dbTransaction.TransactionDao().load().id + 1,
                             "0",
+                            id!!,
+                            formatted,
+                            "USDC",
+                            symbol!!,
+                            fromEditText.text.toString().toDouble(),
                             toEditText.text.toString().toDouble()
                         )
+                        dbTransaction.TransactionDao().insert(transaction)
+                        var ok = 1
+                        for (invested: InvestedCoin in dbInvested.investedCoinDao().loadAllNoSync()) {
+                            if (invested.id_user == "0" && invested.symbol == "USDT") {
+                                val investedToUpdate = InvestedCoin(
+                                    invested.symbol, invested.name, invested.symbol,
+                                    invested.image, invested.rank, invested.id_user,
+                                    invested.invested_amount - fromEditText.text.toString().toDouble()
+                                )
+                                dbInvested.investedCoinDao().insert(investedToUpdate)
+                            }
+                            if (invested.id_user == "0" && invested.symbol == symbol) {
+                                ok = 0
+                                val investedToUpdate = InvestedCoin(
+                                    invested.symbol, invested.name, invested.symbol,
+                                    invested.image, invested.rank, invested.id_user,
+                                    invested.invested_amount + toEditText.text.toString().toDouble()
+                                )
+                                dbInvested.investedCoinDao().insert(investedToUpdate)
+                            }
+                        }
+                        if (ok == 1) {
+                            val investedToAdd = InvestedCoin(
+                                symbol,
+                                name!!,
+                                symbol,
+                                image!!,
+                                marketcap_rank!!,
+                                "0",
+                                toEditText.text.toString().toDouble()
+                            )
 
-                        dbInvested.investedCoinDao().insert(investedToAdd)
+                            dbInvested.investedCoinDao().insert(investedToAdd)
+                        }
+                    }
+                    else{
+                        Toast.makeText(activity,"Insufficient balance",Toast.LENGTH_LONG).show()
+                    }
+                } else {
+                    val dbTransaction = TransactionDatabase.getDatabase(this.requireContext())
+                    var balance=0.0
+                    for (invested: InvestedCoin in dbInvested.investedCoinDao().loadAllNoSync()) {
+                        if (invested.id_user == "0" && invested.symbol == "USDT") {
+                            balance=invested.invested_amount
+                        }
+                    }
+                    if(fromEditText.text.toString().toDouble()<=balance) {
+                        val transaction = Transaction(
+                            0,
+                            "0",
+                            id!!,
+                            formatted,
+                            "USDT",
+                            symbol!!,
+                            fromEditText.text.toString().toDouble(),
+                            toEditText.text.toString().toDouble()
+                        )
+                        dbTransaction.TransactionDao().insert(transaction)
+                        var ok = 1
+                        for (invested: InvestedCoin in dbInvested.investedCoinDao().loadAllNoSync()) {
+                            if (invested.id_user == "0" && invested.symbol == "USDT") {
+                                val investedToUpdate = InvestedCoin(
+                                    invested.symbol, invested.name, invested.symbol,
+                                    invested.image, invested.rank, invested.id_user,
+                                    invested.invested_amount - fromEditText.text.toString().toDouble()
+                                )
+                                dbInvested.investedCoinDao().insert(investedToUpdate)
+                            }
+                            if (invested.id_user == "0" && invested.symbol == symbol) {
+                                ok = 0
+                                val investedToUpdate = InvestedCoin(
+                                    invested.symbol, invested.name, invested.symbol,
+                                    invested.image, invested.rank, invested.id_user,
+                                    invested.invested_amount + toEditText.text.toString().toDouble()
+                                )
+                                dbInvested.investedCoinDao().insert(investedToUpdate)
+                            }
+                        }
+                        if (ok == 1) {
+                            val investedToAdd = InvestedCoin(
+                                symbol,
+                                name!!,
+                                symbol,
+                                image!!,
+                                marketcap_rank!!,
+                                "0",
+                                toEditText.text.toString().toDouble()
+                            )
+
+                            dbInvested.investedCoinDao().insert(investedToAdd)
+                        }
+                    }
                 }
             }
 
@@ -150,13 +221,11 @@ class BuyFragment : Fragment() {
             }
 
             override fun afterTextChanged(s: Editable) {
-                if(s.toString()!="") {
+                if (s.toString() != "") {
                     val text = String.format("%.10f", s.toString().toDouble() / current_price!!)
                         .replace(",", ".")
                     viewOfLayout.toValue.setText(text)
-                }
-                else
-                {
+                } else {
                     viewOfLayout.toValue.setText("")
                 }
             }
@@ -166,9 +235,10 @@ class BuyFragment : Fragment() {
 
         return viewOfLayout
     }
-    private fun setToolBarBackButton(){
-        val toolbar=viewOfLayout.buyToolbar
-        toolbar.    navigationIcon?.setColorFilter(Color.parseColor("#e8a48f"), PorterDuff.Mode.SRC_IN)
+
+    private fun setToolBarBackButton() {
+        val toolbar = viewOfLayout.buyToolbar
+        toolbar.navigationIcon?.setColorFilter(Color.parseColor("#e8a48f"), PorterDuff.Mode.SRC_IN)
         toolbar.setNavigationOnClickListener {
             activity?.onBackPressed()
 

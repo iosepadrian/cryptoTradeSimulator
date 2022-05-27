@@ -21,8 +21,11 @@ import com.example.myapplication.data.data.adapters.CoinListAdapter
 import com.example.myapplication.data.data.adapters.CoinsListAdapter
 import com.example.myapplication.data.data.adapters.FavCoinAdapter
 import com.example.myapplication.data.data.adapters.PagerAdapter
+import com.example.myapplication.data.data.model.InvestedCoin
 import com.example.myapplication.modelView.FavCoinModelView
 import com.example.myapplication.modelView.UserViewModel
+import com.example.myapplication.repository.database.InvestedCoinDatabase
+import com.example.myapplication.repository.database.TransactionDatabase
 import com.example.myapplication.ui.fragments.tabFragments.LabelFragment
 import com.example.myapplication.ui.fragments.tabFragments.OverviewFragment
 import com.example.myapplication.ui.fragments.tabFragments.TasksFragment
@@ -57,10 +60,20 @@ class Page1Fragment : Fragment() {
 
         val recyclerView =  viewOfLayout.findViewById<RecyclerView>(R.id.coinRecyclerView)
 
-        userviewModel.user.observe(viewLifecycleOwner,{ user->
-            viewOfLayout.balanceValue.text="$ "+user.balance.toString()
-            viewOfLayout.transactionsValue.text=user.noOfTransactions.toString()
-       })
+
+        userviewModel.user.observe(viewLifecycleOwner) { user ->
+            val dbInvested = InvestedCoinDatabase.getDatabase(this.requireContext())
+            var balance=0.0
+            if (dbInvested.investedCoinDao().load()!=null) {
+                for (invested: InvestedCoin in dbInvested.investedCoinDao().loadAllNoSync()) {
+                    if (invested.id_user == "0" && invested.symbol == "USDT") {
+                        balance = invested.invested_amount
+                    }
+                }
+            }
+            viewOfLayout.balanceValue.text = "$ " + balance.toString()
+            viewOfLayout.transactionsValue.text = user.noOfTransactions.toString()
+        }
 
         adapter= CoinsListAdapter()
 

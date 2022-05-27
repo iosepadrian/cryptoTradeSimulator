@@ -1,6 +1,5 @@
 package com.example.myapplication.ui.fragments
 
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
@@ -17,20 +16,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.animation.AnimationUtils
-import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.data.data.model.InvestedCoin
 import com.example.myapplication.data.data.model.Transaction
-import com.example.myapplication.modelView.UserViewModel
-import com.example.myapplication.repository.database.FavCoinDatabase
 import com.example.myapplication.repository.database.InvestedCoinDatabase
 import com.example.myapplication.repository.database.TransactionDatabase
-import com.example.myapplication.ui.activities.MainActivity
 import kotlinx.android.synthetic.main.fragment_buy.view.exchange_rate
 import kotlinx.android.synthetic.main.fragment_buy.view.fromValue
-import kotlinx.android.synthetic.main.fragment_buy.view.toName
 import kotlinx.android.synthetic.main.fragment_buy.view.toValue
 import kotlinx.android.synthetic.main.fragment_sell.view.*
 import java.time.LocalDateTime
@@ -70,6 +63,8 @@ class BuyFragment : Fragment() {
         for (i: InvestedCoin in dbInvested.investedCoinDao().loadAllNoSync()) {
             Log.v("AdiTag", i.toString())
         }
+
+        setUpWallet(dbInvested)
 
         val fromEditText = viewOfLayout.fromValue
         val toEditText = viewOfLayout.toValue
@@ -203,7 +198,7 @@ class BuyFragment : Fragment() {
                     }
                 }
             }
-
+        setUpWallet(dbInvested)
         }
 
         fromEditText.addTextChangedListener(object : TextWatcher {
@@ -245,6 +240,28 @@ class BuyFragment : Fragment() {
         }
 
     }
-
+    private fun setUpWallet(dbInvested: InvestedCoinDatabase) {
+        var ok=1
+        if (dbInvested.investedCoinDao().load() != null) {
+            for (invested: InvestedCoin in dbInvested.investedCoinDao().loadAllNoSync()) {
+                if (invested.id_user == "0" && invested.symbol.equals(
+                        viewOfLayout.toName.text.toString(),
+                        ignoreCase = true
+                    )
+                ) {
+                    ok=0
+                    viewOfLayout.symbolWallet.text =
+                        invested.symbol + " : " + invested.invested_amount
+                }
+                if (invested.id_user == "0" && invested.symbol == "USDT") {
+                    viewOfLayout.usdtWallet.text = "USDT : " + invested.invested_amount
+                }
+            }
+            if (ok==1){
+                viewOfLayout.symbolWallet.text =
+                    viewOfLayout.toName.text.toString().toUpperCase() + " : 0"
+            }
+        }
+    }
 
 }

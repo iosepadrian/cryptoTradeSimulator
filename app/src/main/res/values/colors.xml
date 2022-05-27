@@ -20,4 +20,5 @@
     <color name="chip_backgroud">#fcefec</color>
     <color name="blue_price">#006d77</color>
     <color name="red">#FF0000</color>
+    <color name="lowred">#D0A19C</color>
 </resources>
